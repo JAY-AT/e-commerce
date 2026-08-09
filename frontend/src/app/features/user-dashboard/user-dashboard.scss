@@ -31,7 +31,6 @@
   width: 18rem;
   height: 18rem;
   background: radial-gradient(circle, rgba(227, 186, 140, 0.18), transparent 66%);
-  animation: drift 14s ease-in-out infinite;
 }
 
 .dashboard::after {
@@ -40,7 +39,6 @@
   width: 16rem;
   height: 16rem;
   background: radial-gradient(circle, rgba(184, 95, 52, 0.14), transparent 66%);
-  animation: drift 18s ease-in-out infinite reverse;
 }
 
 .dashboard-shell {
@@ -123,16 +121,6 @@
   min-height: 0;
 }
 
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(0, -12px, 0) scale(1.04);
-  }
-}
 
 @media (max-width: 960px) {
   .dashboard-shell {

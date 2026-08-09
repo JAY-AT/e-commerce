@@ -1,7 +1,6 @@
 .products {
   display: flex;
   flex-direction: column;
-  min-height: 0;
   min-width: 0;
   gap: 1.25rem;
   padding: 0;
@@ -26,14 +25,14 @@
 
       h1 {
         margin: 0;
-        font-size: clamp(1.7rem, 2vw, 2.5rem);
+        font-size: clamp(1.7rem, 5vw, 2.5rem);
         line-height: 1.1;
         letter-spacing: -0.03em;
       }
 
       .lede {
         margin-top: 0.6rem;
-        font-size: 0.98rem;
+        font-size: clamp(0.95rem, 1.2vw, 1.05rem);
         line-height: 1.7;
         color: rgba(246, 228, 214, 0.74);
       }
@@ -97,13 +96,14 @@
     }
 
     .search {
-      flex: 1 1 18rem;
-      padding: 0.85rem 1rem;
+      flex: 1 1 100%;
+      padding: 0.95rem 1rem;
     }
 
     .select {
-      flex: 0 0 15rem;
-      padding: 0.75rem 1rem;
+      flex: 1 1 16rem;
+      min-width: 18rem;
+      padding: 0.8rem 1rem;
     }
   }
 
@@ -129,9 +129,8 @@
   .grid {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.25rem;
     padding: 0.25rem 0.1rem 0.5rem;
   }
@@ -150,6 +149,9 @@
     }
 
     .filters {
+      flex-direction: column;
+      align-items: stretch;
+
       .search,
       .select {
         flex: 1 1 100%;
@@ -161,3 +163,4 @@
     }
   }
 }
+

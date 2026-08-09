@@ -61,6 +61,7 @@
       class="menu-toggle"
       (click)="toggleMobileMenu()"
       [attr.aria-expanded]="mobileOpen"
+      aria-controls="mobile-links"
       aria-label="Toggle navigation">
       <span></span>
       <span></span>
@@ -72,7 +73,7 @@
   </div>
 </header>
 
-<div class="mobile-links" *ngIf="mobileOpen && links.length">
+<div id="mobile-links" class="mobile-links" *ngIf="mobileOpen && links.length">
   <ng-container *ngFor="let link of links">
     <a
       *ngIf="link.route; else anchorMobile"

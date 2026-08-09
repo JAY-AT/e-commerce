@@ -138,4 +138,17 @@ button {
     align-items: start;
     flex-direction: column;
   }
+
+  .panel-actions {
+    padding: 0.85rem;
+  }
+
+  .link-row {
+    align-items: stretch;
+  }
+
+  .link-row input,
+  .link-row textarea {
+    width: 100%;
+  }
 }

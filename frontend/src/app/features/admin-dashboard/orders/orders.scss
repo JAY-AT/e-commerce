@@ -235,6 +235,7 @@
 @media (max-width: 720px) {
   .header {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .toolbar {
@@ -242,5 +243,19 @@
     select {
       width: 100%;
     }
+  }
+
+  .order-card {
+    padding: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
   }
 }

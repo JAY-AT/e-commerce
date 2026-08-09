@@ -23,7 +23,6 @@
   filter: blur(18px);
   pointer-events: none;
   opacity: 0.72;
-  animation: drift 14s ease-in-out infinite;
 }
 
 .auth-orb--one {
@@ -383,16 +382,6 @@
   }
 }
 
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0) scale(1.04);
-  }
-}
 
 @media (min-width: 1024px) {
   .auth-card {

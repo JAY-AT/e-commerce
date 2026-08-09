@@ -91,6 +91,24 @@
   transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
+@media (max-width: 760px) {
+  .cart-popover {
+    width: min(90vw, 14rem);
+    right: 0.25rem;
+    bottom: calc(100% + 0.75rem);
+  }
+
+  .cart-fab {
+    width: 4.8rem;
+    height: 4.8rem;
+  }
+
+  .cart-fab__icon {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+}
+
 .cart-wrap:hover .cart-popover,
 .cart-wrap:focus-within .cart-popover {
   opacity: 1;

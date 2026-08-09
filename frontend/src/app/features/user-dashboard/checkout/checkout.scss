@@ -1,13 +1,13 @@
 .checkout-page {
   min-height: calc(100vh - 64px);
-  padding: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
   background:
     radial-gradient(circle at 12% 10%, rgba(184, 95, 52, 0.1), transparent 24%),
     linear-gradient(180deg, #150f0c 0%, #1a120f 100%);
 }
 
 .shell {
-  max-width: 1120px;
+  width: min(100%, 1120px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -149,6 +149,7 @@
 
 .submit {
   min-height: 3.1rem;
+  width: 100%;
   border: none;
   border-radius: 999px;
   background: linear-gradient(135deg, #d4a57d, #7b4d3a);
@@ -166,6 +167,12 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .shell {
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 760px) {
   .checkout-page {
     padding: 0.75rem;
@@ -179,4 +186,10 @@
   .payment-options {
     grid-template-columns: 1fr;
   }
+
+  .summary-panel,
+  .form-panel {
+    padding: 1rem;
+  }
 }
+

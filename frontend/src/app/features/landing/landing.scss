@@ -45,7 +45,6 @@
   width: 20rem;
   height: 20rem;
   background: radial-gradient(circle, rgba(227, 186, 140, 0.22) 0%, rgba(184, 95, 52, 0.12) 42%, transparent 72%);
-  animation: floatGlow 12s ease-in-out infinite;
 }
 
 .landing-page::after {
@@ -54,7 +53,6 @@
   width: 18rem;
   height: 18rem;
   background: radial-gradient(circle, rgba(184, 95, 52, 0.12) 0%, rgba(227, 186, 140, 0.08) 42%, transparent 70%);
-  animation: floatGlow 16s ease-in-out infinite reverse;
 }
 
 .landing-page .landing-hero::before,
@@ -91,13 +89,3 @@ main > * + * {
   scroll-margin-top: 6.5rem;
 }
 
-@keyframes floatGlow {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(0, -1.1rem, 0) scale(1.06);
-  }
-}

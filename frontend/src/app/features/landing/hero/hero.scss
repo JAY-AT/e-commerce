@@ -126,8 +126,6 @@
   border: 1px solid rgba(227, 186, 140, 0.08);
   box-shadow: var(--shadow-soft);
   position: relative;
-  transform: translateZ(0);
-  animation: floatCard 9s ease-in-out infinite;
 
   img {
     width: 100%;
@@ -147,7 +145,6 @@
   background:
     linear-gradient(120deg, transparent 0%, rgba(227, 186, 140, 0.08) 34%, rgba(227, 186, 140, 0.28) 50%, rgba(227, 186, 140, 0.1) 64%, transparent 100%);
   mix-blend-mode: screen;
-  animation: sweep 8.5s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -160,45 +157,8 @@
   border-radius: 999px;
   background: radial-gradient(circle, rgba(227, 186, 140, 0.22) 0%, rgba(184, 95, 52, 0.06) 46%, transparent 72%);
   filter: blur(2px);
-  animation: pulse 6.5s ease-in-out infinite;
 }
 
-@keyframes sweep {
-  0%,
-  100% {
-    transform: translateX(-18%);
-    opacity: 0.55;
-  }
-
-  50% {
-    transform: translateX(18%);
-    opacity: 0.95;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(0.92);
-    opacity: 0.46;
-  }
-
-  50% {
-    transform: scale(1.05);
-    opacity: 0.78;
-  }
-}
-
-@keyframes floatCard {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
-}
 
 @media (max-width: 900px) {
   .landing-hero {

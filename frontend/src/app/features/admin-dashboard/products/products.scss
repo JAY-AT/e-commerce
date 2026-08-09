@@ -453,4 +453,55 @@ table {
   .panel-header {
     flex-direction: column;
   }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.75rem;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(20, 15, 12, 0.92);
+    border: 1px solid rgba(227, 186, 140, 0.08);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  tbody td.product-cell {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  tbody td.description,
+  tbody td.image-url {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  tbody td:last-child {
+    justify-content: flex-start;
+  }
 }

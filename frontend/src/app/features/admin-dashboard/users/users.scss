@@ -99,4 +99,13 @@
   .actions {
     justify-content: space-between;
   }
+
+  .actions,
+  select {
+    width: 100%;
+  }
+
+  .role {
+    width: fit-content;
+  }
 }

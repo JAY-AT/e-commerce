@@ -47,7 +47,9 @@
                 <img
                   *ngIf="currentImageUrl"
                   [src]="currentImageUrl"
-                  [alt]="product.name">
+                  [alt]="product.name"
+                  loading="lazy"
+                  decoding="async">
 
                 <div
                   *ngIf="!currentImageUrl"
