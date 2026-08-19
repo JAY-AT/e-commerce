@@ -178,3 +178,65 @@ Unique keys:
 - carts 1:N cart_items
 - orders 1:N order_items
 - orders 1:1 payments
+
+
+
+* Account & Login 
+
+users — the account itself
+
+Your email, hashed password, name, phone, and a role (customer or admin). This is the center of almost everything else — most other tables point back to a user.
+
+refresh_tokens — "remember me" tokens
+
+When you log in, the app can issue a long-lived token so you don't have to re-enter your password constantly. Each row is one issued token, tied to a user, with an expiry date and a "revoked at" field for when it's manually logged out early.
+
+addresses — your saved shipping address
+
+One per user (it's unique to user_id). Street, city, state, postal code.
+
+* Products
+
+categories — product groupings
+
+Things like "Coffee," "Mugs," "Snacks" — just a name and a URL-friendly slug.
+
+products — the actual items for sale
+
+Name, description, price, stock count, and which category it belongs to. This is the table almost everything else (cart, orders, reviews) ultimately points to.
+
+product_images — photos for a product
+
+A product can have several images; one of them is flagged is_primary (the main thumbnail shown in listings).
+
+* Shopping (before you pay)
+
+carts — your personal shopping basket (one per user, reused every visit)
+
+cart_items — the items sitting in that basket right now, with live pricing (see explanation above)
+
+* Orders (after you pay)
+
+orders — a completed purchase / receipt
+
+Total amount, status (pending → shipped → completed), shipping address, and who bought it.
+
+order_items — the specific products in that order, with the price locked in at time of purchase (see explanation above)
+
+payments — the payment record for an order
+
+One-to-one with an order (you pay once per order). Stores amount, method (card/wallet/etc.), status (pending/paid/failed), and the payment processor's transaction ID — useful for reconciling with Stripe/PayPal/etc.
+
+order_reviews — a customer's review of an order
+
+One review per order (also 1:1). Star rating (1–5) plus an optional comment.
+
+* Support & Communication
+
+notifications — messages the app sends to a user
+
+E.g. "Your order has shipped." Has a type (order/payment/system), a target_role, and an is_read flag so the app knows what to show as unread.
+
+support_threads — a customer support conversation
+
+Can belong to a logged-in user or an anonymous visitor (visitor_key) — that's why both are nullable but each is unique on its own. Stores the whole conversation as a JSON blob of messages, plus status (open/closed) and an unread count.
