@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # E-Commerce App
 
 An e-commerce platform with a customer storefront, admin dashboard, authentication, cart and checkout flow, order management, payments, reviews, notifications, and support chat.
