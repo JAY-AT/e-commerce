@@ -94,7 +94,8 @@ export const ProductService = {
     },
 
   async createProduct(data) {
-  const existing = await ProductRepository.findByName(data.name);
+  const productName = String(data.name ?? '').trim();
+  const existing = await ProductRepository.findByName(productName);
 
   if (existing) {
     throw new AppError("Product name already exists", 409);
@@ -106,7 +107,7 @@ export const ProductService = {
       async (conn) => {
         const productResult = await ProductRepository.create(
           {
-            name: data.name,
+            name: productName,
             description: data.description,
             price: data.price,
             stock: data.stock,

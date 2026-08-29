@@ -51,16 +51,23 @@ export class AdminProductCreateComponent implements OnInit {
     }
 
     const value = this.productForm.value;
+    const name = String(value.name ?? '').trim();
 
     if (!value.categoryId) {
       this.toastManager.error('Please choose a category');
       return;
     }
 
+    if (name.length < 3) {
+      this.productForm.controls['name'].markAsTouched();
+      this.toastManager.error('Product name must be at least 3 characters.');
+      return;
+    }
+
     this.isSaving = true;
 
     this.productManager.createProduct({
-      name: value.name ?? '',
+      name,
       description: value.description ?? '',
       price: Number(value.price ?? 0),
       stock: Number(value.stock ?? 0),
