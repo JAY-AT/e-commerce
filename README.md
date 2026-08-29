@@ -56,8 +56,8 @@ An e-commerce platform with a customer storefront, admin dashboard, authenticati
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/JAY-AT/SE1
-cd e-commerce-app
+git clone https://github.com/JAY-AT/e-commerce
+cd e-commerce
 ```
 
 ### 2. Set up the backend
