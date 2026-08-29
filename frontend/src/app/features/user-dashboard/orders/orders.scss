@@ -6,13 +6,6 @@
     linear-gradient(180deg, #150f0c 0%, #1a120f 100%);
 }
 
-:host {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-}
-
 .shell {
   max-width: 1320px;
   margin: 0 auto;

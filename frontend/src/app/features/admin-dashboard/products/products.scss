@@ -388,6 +388,41 @@ table {
   }
 }
 
+.field-error {
+  color: #f6aaa0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.stock-control {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.stock-adjust {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(227, 186, 140, 0.16);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f7e8dc;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.stock-adjust:hover:not(:disabled) {
+  background: rgba(212, 165, 125, 0.16);
+}
+
+.stock-adjust:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .grid {
   display: grid;
   gap: 0.75rem;

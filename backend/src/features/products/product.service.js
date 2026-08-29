@@ -140,11 +140,16 @@ export const ProductService = {
 },
 
   async updateProduct(id, data) {
-    const product = await ProductRepository.findById(id);
-    if (!product) throw new Error("Product not found");
+    const productId = Number(id);
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+      throw new AppError("A valid product ID is required", 422);
+    }
+
+    const product = await ProductRepository.findById(productId);
+    if (!product) throw new AppError("Product not found", 404);
 
     if (Object.prototype.hasOwnProperty.call(data, "name")) {
-      const existing = await ProductRepository.findByNameExceptId(data.name, id);
+      const existing = await ProductRepository.findByNameExceptId(data.name, productId);
 
       if (existing) {
         throw new AppError("Product name already exists", 409);
@@ -152,7 +157,24 @@ export const ProductService = {
     }
 
     try {
-      return await ProductRepository.update(id, data);
+      console.log("Updating product stock/details:", {
+        productId,
+        stock: data.stock,
+      });
+
+      const updated = await ProductRepository.update(productId, data);
+
+      if (!updated) {
+        throw new AppError("Product not found", 404);
+      }
+
+      const updatedProduct = await ProductService.getProductById(productId);
+
+      if (!updatedProduct) {
+        throw new AppError("Product not found after update", 404);
+      }
+
+      return updatedProduct;
     } catch (err) {
       mapDuplicateProductError(err);
     }

@@ -25,6 +25,25 @@ export default class ProductRepository extends BaseModel {
     return rows[0] ?? null;
   }
 
+  static async update(id, data) {
+    const allowedFields = ["name", "description", "price", "stock", "category_id"];
+    const fields = allowedFields.filter((field) => Object.prototype.hasOwnProperty.call(data, field));
+
+    if (!fields.length) {
+      throw new Error("No editable product fields provided");
+    }
+
+    const values = fields.map((field) => data[field]);
+    const [result] = await this.pool.query(
+      `UPDATE ${this.table}
+       SET ${fields.map((field) => `${field} = ?`).join(", ")}
+       WHERE id = ?`,
+      [...values, id]
+    );
+
+    return this.findById(id);
+  }
+
   static async findStocksForUpdate(productIds, db = null) {
     if (!productIds.length) return [];
 

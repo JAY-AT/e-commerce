@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-import { ProductDetail, ProductListItem } from '@common/models/product';
+import { ProductListItem } from '@common/models/product';
 import {
   ProductApiService,
   UpdateProductRequest,
@@ -34,6 +34,7 @@ export class AdminProductsComponent implements OnInit {
   categories: CategoryItem[] = [];
   selectedSummary: ProductListItem | null = null;
   selectedProduct: ProductDetailDTO | null = null;
+  selectedProductId: number | null = null;
   isSaving = false;
   isDeleting = false;
   showCreateForm = false;
@@ -88,11 +89,13 @@ export class AdminProductsComponent implements OnInit {
     this.selectedSummary = product;
     
     const productId = Number(product.id);
-    if (!Number.isFinite(productId)) {
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
       this.toastManager.error('This product cannot be edited because its ID is invalid.');
       console.log(product);
       return;
     }
+
+    this.selectedProductId = productId;
 
     this.manager.selectProduct(productId).pipe(
       tap(product => {
@@ -114,6 +117,7 @@ export class AdminProductsComponent implements OnInit {
   closeEditor(): void {
     this.selectedSummary = null;
     this.selectedProduct = null;
+    this.selectedProductId = null;
     this.productForm.reset({
       name: '',
       description: '',
@@ -123,8 +127,25 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  adjustStock(delta: number): void {
+    if (!this.selectedProductId || !Number.isInteger(delta)) {
+      return;
+    }
+
+    const stockControl = this.productForm.controls['stock'];
+    const currentStock = Number(stockControl.value);
+    const nextStock = Math.max(0, Math.trunc(Number.isFinite(currentStock) ? currentStock : 0) + delta);
+
+    stockControl.setValue(nextStock);
+    stockControl.markAsDirty();
+    stockControl.markAsTouched();
+  }
+
 saveProduct(): void {
-  if (!this.selectedProduct) return;
+  if (!this.selectedProduct || this.selectedProductId === null) {
+    this.toastManager.error('Select a product before saving changes.');
+    return;
+  }
 
   if (this.productForm.invalid) {
     this.productForm.markAllAsTouched();
@@ -132,18 +153,49 @@ saveProduct(): void {
   }
 
   const value = this.productForm.value;
+  const stock = Number(value.stock);
 
-  const payload: UpdateProductRequest = {
-    name: value.name ?? '',
-    description: value.description ?? '',
-    price: Number(value.price ?? 0),
-    stock: Number(value.stock ?? 0),
-    category_id: value.categoryId ?? null,
-  };
+  if (!Number.isSafeInteger(stock) || stock < 0) {
+    this.productForm.controls['stock'].setErrors({ invalidStock: true });
+    this.productForm.controls['stock'].markAsTouched();
+    this.toastManager.error('Stock must be a whole number of 0 or more.');
+    return;
+  }
+
+  const payload: UpdateProductRequest = {};
+  const currentName = value.name ?? '';
+  const currentDescription = value.description ?? '';
+  const currentPrice = Number(value.price ?? 0);
+  const currentCategoryId = value.categoryId ?? null;
+
+  if (currentName !== this.selectedProduct.name) {
+    payload.name = currentName;
+  }
+
+  if (currentDescription !== this.selectedProduct.description) {
+    payload.description = currentDescription;
+  }
+
+  if (currentPrice !== Number(this.selectedProduct.price)) {
+    payload.price = currentPrice;
+  }
+
+  if (stock !== Number(this.selectedProduct.stock)) {
+    payload.stock = stock;
+  }
+
+  if (currentCategoryId !== (this.selectedProduct.category?.id ?? null)) {
+    payload.category_id = currentCategoryId;
+  }
+
+  if (Object.keys(payload).length === 0) {
+    this.toastManager.error('No product changes to save.');
+    return;
+  }
 
   this.isSaving = true;
 
-  this.manager.updateProduct(this.selectedProduct.id, payload).pipe(
+  this.manager.updateProduct(this.selectedProductId, payload).pipe(
     finalize(() => {
       this.isSaving = false;
     })
@@ -152,11 +204,24 @@ saveProduct(): void {
       console.log('Product updated successfully:', updatedProduct);
       this.toastManager.success("Product updated successfully");
       this.selectedProduct = updatedProduct;
-      this.selectProduct(this.mapDetailToList(updatedProduct)); // reuse updated data directly
-      
+      this.selectedSummary = this.mapDetailToList(updatedProduct);
+      this.selectedProductId = updatedProduct.id;
+      this.productForm.patchValue({
+        name: updatedProduct.name,
+        description: updatedProduct.description,
+        price: updatedProduct.price,
+        stock: updatedProduct.stock,
+        categoryId: updatedProduct.category?.id ?? null,
+      });
+      this.productForm.markAsPristine();
     },
-    error: () => {
-      this.toastManager.error("Failed to update product");
+    error: (error) => {
+      const errors = error?.error?.errors;
+      const message = Array.isArray(errors) && errors.length
+        ? errors.join(' ')
+        : error?.error?.message || error?.message || 'Failed to update product';
+      console.error('Product update failed:', error);
+      this.toastManager.error(message);
     }
   });
 }

@@ -131,7 +131,24 @@
 
           <label>
             <span>Stock</span>
-            <input type="number" formControlName="stock" min="0" step="1">
+            <div class="stock-control">
+              <button
+                type="button"
+                class="stock-adjust"
+                (click)="adjustStock(-1)"
+                [disabled]="isSaving || !selectedProductId || productForm.controls['stock'].value <= 0"
+                aria-label="Decrease stock">-</button>
+              <input type="number" formControlName="stock" min="0" step="1" aria-label="Product stock">
+              <button
+                type="button"
+                class="stock-adjust"
+                (click)="adjustStock(1)"
+                [disabled]="isSaving || !selectedProductId"
+                aria-label="Increase stock">+</button>
+            </div>
+            <small class="field-error" *ngIf="productForm.controls['stock'].touched && productForm.controls['stock'].invalid">
+              Stock must be a whole number of 0 or more.
+            </small>
           </label>
         </div>
 
@@ -152,7 +169,7 @@
       </form>
 
       <div class="actions">
-        <button type="button" class="save" (click)="saveProduct()" [disabled]="isSaving">
+        <button type="button" class="save" (click)="saveProduct()" [disabled]="isSaving || !selectedProductId">
           {{ isSaving ? 'Saving...' : 'Save changes' }}
         </button>
         <button type="button" class="delete" (click)="deleteProduct()" [disabled]="isDeleting">

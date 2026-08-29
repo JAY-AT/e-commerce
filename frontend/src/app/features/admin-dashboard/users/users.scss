@@ -33,71 +33,6 @@
   }
 }
 
-.user-filters {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-width: 0;
-}
-
-.user-filters input {
-  width: 100%;
-  min-height: 2.9rem;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid rgba(227, 186, 140, 0.12);
-  border-radius: 0.9rem;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f7e8dc;
-  font: inherit;
-}
-
-.user-filters input::placeholder {
-  color: rgba(245, 231, 219, 0.38);
-}
-
-.user-filters input:focus {
-  outline: none;
-  border-color: rgba(212, 165, 125, 0.38);
-  box-shadow: 0 0 0 4px rgba(212, 165, 125, 0.08);
-}
-
-.role-filters {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-}
-
-.role-filters button {
-  min-height: 44px;
-  padding: 0.55rem 0.8rem;
-  border: 1px solid rgba(227, 186, 140, 0.14);
-  border-radius: 0.8rem;
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(247, 232, 220, 0.8);
-  font: inherit;
-  font-size: 0.76rem;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.role-filters button.active {
-  background: rgba(212, 165, 125, 0.16);
-  border-color: rgba(212, 165, 125, 0.32);
-  color: #fff2e7;
-}
-
-.empty-state {
-  padding: 1.25rem;
-  border: 1px solid rgba(227, 186, 140, 0.08);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.025);
-  color: rgba(245, 231, 219, 0.72);
-  text-align: center;
-}
-
 .list {
   display: grid;
   gap: 0.75rem;
@@ -156,20 +91,6 @@
 }
 
 @media (max-width: 760px) {
-  .user-filters {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .role-filters {
-    width: 100%;
-  }
-
-  .role-filters button {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
   .user-card {
     flex-direction: column;
     align-items: stretch;
