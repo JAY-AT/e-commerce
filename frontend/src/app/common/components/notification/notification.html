@@ -1,9 +1,12 @@
 <div class="notification-container">
   <div class="notification-header">
     <h3>Notifications</h3>
-    <span class="badge" *ngIf="notifCount$ | async as unreadCount">
-      {{ unreadCount }}
-    </span>
+    <div class="header-actions">
+      <span class="badge" *ngIf="notifCount$ | async as unreadCount">
+        {{ unreadCount }}
+      </span>
+      <button type="button" class="close-button" (click)="close.emit()" aria-label="Close notifications">X</button>
+    </div>
   </div>
 
   <ng-container *ngIf="notifications$ | async as notifications">

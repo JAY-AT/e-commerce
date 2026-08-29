@@ -7,6 +7,7 @@ import { Orders } from '@features/user-dashboard/orders/orders';
 import { Profile } from '@features/user-dashboard/profile/profile';
 import { UserDashboard } from '@features/user-dashboard/user-dashboard';
 import { Signup } from '@features/auth/signup/signup';
+import { PayOrderComponent } from '@features/payment/pay-order/pay-order';
 import { authGuard } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -34,6 +35,12 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: Profile,
+    canActivate: [authGuard],
+    data: { role: 'customer' },
+  },
+  {
+    path: 'pay/:orderId',
+    component: PayOrderComponent,
     canActivate: [authGuard],
     data: { role: 'customer' },
   },

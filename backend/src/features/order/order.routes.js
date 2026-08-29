@@ -11,6 +11,12 @@ import {
 
 const router = Router();
 
+router.get(
+    "/public/:id/qrcode",
+    validateRequest(validateOrderId, "params"),
+    OrderController.getPublicOrderQrCode
+);
+
 router.use(authMiddleware);
 
 // GET /api/orders
@@ -27,6 +33,18 @@ router.get(
 
 // GET /api/orders/:id
 // get single order details
+router.get(
+    "/:id/qrcode",
+    validateRequest(validateOrderId, "params"),
+    OrderController.getOrderQrCode
+);
+
+router.post(
+    "/:id/confirm-payment",
+    validateRequest(validateOrderId, "params"),
+    OrderController.confirmPayment
+);
+
 router.get(
     "/:id",
     validateRequest(validateOrderId, "params"),

@@ -30,6 +30,42 @@ export default class OrderController {
         });
     });
 
+    static getPublicOrderQrCode = asyncHandler(async (req, res) => {
+        const { id } = req.params;
+
+        const qrCode = await orderService.generatePublicOrderQrCode(Number(id));
+
+        return res.status(200).json({
+            success: true,
+            data: qrCode
+        });
+    });
+
+    static getOrderQrCode = asyncHandler(async (req, res) => {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const qrCode = await orderService.generateOrderQrCode(userId, Number(id));
+
+        return res.status(200).json({
+            success: true,
+            data: qrCode
+        });
+    });
+
+    static confirmPayment = asyncHandler(async (req, res) => {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const result = await orderService.confirmOrderPayment(userId, Number(id));
+
+        return res.status(200).json({
+            success: true,
+            message: "Payment confirmed and order marked as paid",
+            data: result
+        });
+    });
+
     static getAllOrders = asyncHandler(async (req, res) => {
         const role = req.user.role;
 

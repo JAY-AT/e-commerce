@@ -186,6 +186,22 @@ table {
   }
 }
 
+@media (min-width: 761px) and (max-width: 1199px) {
+  table {
+    min-width: 860px;
+  }
+
+  table th,
+  table td {
+    padding: 0.75rem 0.6rem;
+  }
+
+  table .description,
+  table .image-url {
+    max-width: 150px;
+  }
+}
+
 .editor {
   display: flex;
   flex-direction: column;

@@ -24,6 +24,7 @@ export class AdminChatSupportComponent implements OnInit {
   searchQuery = '';
   threadFilter: 'newest' | 'unread' | 'open' = 'newest';
   showCustomerProfile = false;
+  mobileDetailOpen = false;
 
   constructor(private supportManager: SupportManager) {}
 
@@ -35,11 +36,16 @@ export class AdminChatSupportComponent implements OnInit {
 
   selectThread(thread: SupportThreadDTO): void {
     this.showCustomerProfile = false;
+    this.mobileDetailOpen = true;
     this.supportManager.selectAdminThread(thread.id).subscribe({
       next: () => {
         this.supportManager.markThreadRead(thread.id).subscribe();
       },
     });
+  }
+
+  backToThreadList(): void {
+    this.mobileDetailOpen = false;
   }
 
   reply(activeThread: SupportThreadDTO | null): void {

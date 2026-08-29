@@ -7,7 +7,7 @@
     </div>
   </header>
 
-  <div class="support-grid" *ngIf="threads$ | async as threads">
+  <div class="support-grid" [class.mobile-detail-open]="mobileDetailOpen" *ngIf="threads$ | async as threads">
     <aside class="thread-rail">
       <div class="thread-rail__header">
         <div>
@@ -88,6 +88,10 @@
 
     <article class="conversation" *ngIf="activeThread$ | async as activeThread; else emptyState">
       <header class="conversation__header">
+        <button type="button" class="mobile-back-button" (click)="backToThreadList()" aria-label="Back to conversations">
+          <span aria-hidden="true">&#8592;</span>
+          Conversations
+        </button>
         <div class="conversation__identity">
           <div class="thread-card__avatar thread-card__avatar--large">
             {{ getThreadInitials(activeThread) }}

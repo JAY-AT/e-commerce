@@ -5,8 +5,27 @@
     <p>Review customer accounts and update access from the same dark control language.</p>
   </div>
 
-  <div class="list">
-    <article class="user-card" *ngFor="let user of users$ | async">
+  <div class="user-filters">
+    <input
+      type="search"
+      [value]="searchQuery"
+      (input)="onSearch($any($event.target).value)"
+      placeholder="Search by name, email, or role..."
+      aria-label="Search users by name, email, or role" />
+
+    <div class="role-filters" aria-label="Filter users by role">
+      <button type="button" [class.active]="roleFilter === 'all'" (click)="setRoleFilter('all')">All</button>
+      <button type="button" [class.active]="roleFilter === 'admin'" (click)="setRoleFilter('admin')">Admins</button>
+      <button type="button" [class.active]="roleFilter === 'customer'" (click)="setRoleFilter('customer')">Customers</button>
+    </div>
+  </div>
+
+  <div class="list" *ngIf="filteredUsers$ | async as users">
+    <div class="empty-state" *ngIf="users.length === 0">
+      No users found matching your search.
+    </div>
+
+    <article class="user-card" *ngFor="let user of users">
       <div>
         <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
         <p class="meta">{{ user.email }}</p>

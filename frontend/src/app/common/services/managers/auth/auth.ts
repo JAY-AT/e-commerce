@@ -22,6 +22,7 @@ export interface User {
 }
 
 const ACCESS_TOKEN_KEY = 'accessToken';
+const LEGACY_ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 const CURRENT_USER_KEY = 'currentUser';
 
@@ -80,6 +81,7 @@ export class AuthManager {
 
   clearSession(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(CURRENT_USER_KEY);
     localStorage.removeItem('cart');
@@ -88,7 +90,7 @@ export class AuthManager {
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+    return localStorage.getItem(ACCESS_TOKEN_KEY) ?? localStorage.getItem(LEGACY_ACCESS_TOKEN_KEY);
   }
 
   getRefreshToken(): string | null {
@@ -131,6 +133,7 @@ export class AuthManager {
     const user = this.mapSessionUser(session, session.user.role === 'admin' ? 'admin' : 'customer');
 
     localStorage.setItem(ACCESS_TOKEN_KEY, session.access_token);
+    localStorage.setItem(LEGACY_ACCESS_TOKEN_KEY, session.access_token);
     localStorage.setItem(REFRESH_TOKEN_KEY, session.refresh_token);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
     this.currentUserSubject.next(user);

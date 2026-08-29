@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificationManager } from '@common/services/managers/notification/notification.manager';
 import { NotificationDTO } from '@common/services/api/notification/notification-api.service';
@@ -15,6 +15,7 @@ export class NotificationComponent implements OnInit {
   notifications$!: Observable<NotificationDTO[]>;
   notifCount$!: Observable<number>;
   noUnread = signal(false);
+  @Output() close = new EventEmitter<void>();
   
   constructor(private notificationManager: NotificationManager) {}
 

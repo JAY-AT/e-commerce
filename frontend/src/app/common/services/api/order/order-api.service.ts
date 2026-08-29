@@ -22,6 +22,21 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface OrderQrCodeResponse {
+  orderId: number | string;
+  paymentUrl: string;
+  qrCode: string;
+  mimeType: string;
+  total_amount?: number;
+}
+
+export interface ConfirmOrderPaymentResponse {
+  orderId: number | string;
+  status: OrderStatusDTO;
+  message?: string;
+  order?: OrderDetailDTO;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +59,18 @@ export class OrderApiService {
 
   getOrderById(id: number | string): Observable<OrderDetailDTO> {
     return this.http.get<ApiResponse<OrderDetailDTO>>(`${this.baseUrl}/${id}`).pipe(
+      map(response => response.data)
+    );
+  }
+
+  getOrderQrCode(id: number | string): Observable<OrderQrCodeResponse> {
+    return this.http.get<ApiResponse<OrderQrCodeResponse>>(`${this.baseUrl}/public/${id}/qrcode`).pipe(
+      map(response => response.data)
+    );
+  }
+
+  confirmOrderPayment(id: number | string): Observable<ConfirmOrderPaymentResponse> {
+    return this.http.post<ApiResponse<ConfirmOrderPaymentResponse>>(`${this.baseUrl}/${id}/confirm-payment`, {}).pipe(
       map(response => response.data)
     );
   }

@@ -40,8 +40,9 @@
         </span>
       </button>
 
-      <div class="notif-dropdown" *ngIf="notifOpen">
-        <app-notifications></app-notifications>
+      <div class="notif-backdrop" *ngIf="notifOpen" (click)="closeNotifications()"></div>
+      <div class="notif-dropdown" *ngIf="notifOpen" (click)="$event.stopPropagation()">
+        <app-notifications (close)="closeNotifications()"></app-notifications>
       </div>
     </div>
 

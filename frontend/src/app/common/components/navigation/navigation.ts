@@ -78,6 +78,10 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.notifOpen = !this.notifOpen;
   }
 
+  closeNotifications(): void {
+    this.notifOpen = false;
+  }
+
   isLinkActive(link: NavigationLink): boolean {
     return this.context === 'landing' && this.activeHref === link.href;
   }

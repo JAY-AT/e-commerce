@@ -1,11 +1,34 @@
 .support-panel {
+  width: 100%;
+  box-sizing: border-box;
   display: grid;
   gap: 1rem;
   color: #f7e8dc;
   font-size: clamp(0.94rem, 0.88rem + 0.18vw, 1rem);
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.support-panel > .panel-header,
+.support-panel > .support-grid {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+.support-panel *,
+.support-panel *::before,
+.support-panel *::after {
+  box-sizing: border-box;
 }
 
 .panel-header {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;

@@ -1,5 +1,8 @@
 .conversation {
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
   height: clamp(38rem, 74vh, 52rem);
   border-radius: 1.4rem;
   border: 1px solid rgba(227, 186, 140, 0.12);
@@ -17,6 +20,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.mobile-back-button {
+  display: none;
 }
 
 .conversation__identity {

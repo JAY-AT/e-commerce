@@ -3,3 +3,12 @@
 @use './styles/support-responsive';
 @use './styles/support-thread-rail';
 
+:host {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow-x: hidden;
+}
+

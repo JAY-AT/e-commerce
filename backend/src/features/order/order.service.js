@@ -1,3 +1,4 @@
+import QRCode from "qrcode";
 import AppError from "../../common/utilities/error.js";
 import { CartService } from "../cart/cart.service.js";
 import { productCartDTO } from "../../common/dtos/product.js";
@@ -130,6 +131,69 @@ export default class OrderService {
         }
 
         return order;
+    }
+
+    async generatePublicOrderQrCode(orderId) {
+        const paymentUrl = `http://localhost:4200/pay/${orderId}`;
+        const qrCodeImage = await QRCode.toDataURL(paymentUrl);
+
+        return {
+            orderId,
+            paymentUrl,
+            qrCode: qrCodeImage,
+            mimeType: "image/png"
+        };
+    }
+
+    async generateOrderQrCode(userId, orderId) {
+        const rows = await OrderRepository.findFullById(orderId);
+
+        if (!rows || rows.length === 0) {
+            throw new AppError("Order not found", 404);
+        }
+
+        if (rows[0].user_id !== userId) {
+            throw new AppError("Unauthorized access to order", 403);
+        }
+
+        const qrCode = await this.generatePublicOrderQrCode(orderId);
+
+        return {
+            ...qrCode,
+            total_amount: Number(rows[0].total_amount),
+        };
+    }
+
+    async confirmOrderPayment(userId, orderId) {
+        const rows = await OrderRepository.findFullById(orderId);
+
+        if (!rows || rows.length === 0) {
+            throw new AppError("Order not found", 404);
+        }
+
+        if (rows[0].user_id !== userId) {
+            throw new AppError("Unauthorized access to order", 403);
+        }
+
+        if (rows[0].status === "paid") {
+            return {
+                orderId,
+                status: "paid",
+                message: "Payment already confirmed"
+            };
+        }
+
+        const result = await OrderRepository.updateStatus(orderId, "paid");
+
+        if (!result || result.affectedRows === 0) {
+            throw new AppError("Payment confirmation failed", 500);
+        }
+
+        return {
+            orderId,
+            status: "paid",
+            message: "Payment confirmed"
+        };
     }
 
     // 🔹 3. GET ALL USER ORDERS

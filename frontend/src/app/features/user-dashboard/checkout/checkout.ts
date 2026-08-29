@@ -187,6 +187,13 @@ export class Checkout implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: ({ order, payment }) => {
+        if (form.paymentMethod === 'online') {
+          this.router.navigate(['/pay', order.id], {
+            state: { order },
+          });
+          return;
+        }
+
         if (payment.payment.status === 'paid') {
           this.toastManager.success('Payment successful');
         } else {

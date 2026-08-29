@@ -1,6 +1,7 @@
 .notification-container {
-  width: 350px;
-  height: 420px; /* ✅ fixed height */
+  width: min(350px, calc(100vw - 2rem));
+  height: min(420px, calc(100vh - 7rem));
+  min-height: 260px;
   
   background: #2b1f17; /* darker base for contrast */
   color: #f5e6d8;
@@ -29,6 +30,16 @@
   font-weight: 600;
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notification-header h3 {
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .bulk-actions {
@@ -76,6 +87,7 @@
 
   font-size: 13px;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 
   background: rgba(255, 255, 255, 0.02);
   transition: background 0.2s ease;
@@ -130,4 +142,30 @@ button:disabled:hover {
 button.danger:hover {
   background: #b45145;
   color: #fff7f0;
+}
+
+.close-button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .notification-container {
+    width: 100%;
+    height: min(72vh, 520px);
+    min-height: 260px;
+  }
+
+  .notification-item {
+    padding: 12px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+  }
 }
