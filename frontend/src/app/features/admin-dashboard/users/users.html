@@ -5,8 +5,19 @@
     <p>Review customer accounts and update access from the same dark control language.</p>
   </div>
 
-  <div class="list">
-    <article class="user-card" *ngFor="let user of users$ | async">
+  <label class="search-box" for="user-search">
+    <span class="search-label">Search people</span>
+    <input
+      id="user-search"
+      type="search"
+      [(ngModel)]="searchTerm"
+      placeholder="Search by name, email, or role"
+      aria-label="Search people"
+    />
+  </label>
+
+  <div class="list" *ngIf="visibleUsers.length; else noUsers">
+    <article class="user-card" *ngFor="let user of visibleUsers">
       <div>
         <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
         <p class="meta">{{ user.email }}</p>
@@ -21,4 +32,10 @@
       </div>
     </article>
   </div>
+
+  <ng-template #noUsers>
+    <div class="empty-state">
+      <p>No people match your search.</p>
+    </div>
+  </ng-template>
 </section>
