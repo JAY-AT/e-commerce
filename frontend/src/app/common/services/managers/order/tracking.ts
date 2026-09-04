@@ -15,6 +15,7 @@ export interface OrderTracking {
 }
 
 
+// Trace point: updateObj()
 function updateObj(i: number, c: number, list : OrderTracking[]) {
     while (i < c) {
                 list[i].status = 'done';
@@ -27,6 +28,7 @@ function updateObj(i: number, c: number, list : OrderTracking[]) {
     list[c].label = CURRENT_LABELS[key];
 }
 
+// Trace point: createTracker()
 export function createTracker(status : OrderStatusDTO) {
     let defaultOrderTrack: OrderTracking[] = DONE_LABELS.map(name => ({
     label: name,

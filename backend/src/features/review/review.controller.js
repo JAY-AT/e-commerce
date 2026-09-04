@@ -4,6 +4,7 @@ const service = new OrderReviewService();
 
 export default class OrderReviewController {
 
+  // Trace point: createReview()
   static async createReview(req, res, next) {
     try {
       const userId = req.user.id;
@@ -15,6 +16,7 @@ export default class OrderReviewController {
     }
   }
 
+  // Trace point: getReviewByOrderId()
   static async getReviewByOrderId(req, res, next) {
     try {
       const userId = req.user.id;
@@ -28,6 +30,7 @@ export default class OrderReviewController {
     }
   }
 
+  // Trace point: getUserReviews()
   static async getUserReviews(req, res, next) {
     try {
       const userId = req.user.id;
@@ -40,6 +43,7 @@ export default class OrderReviewController {
     }
   }
 
+  // Trace point: deleteReview()
   static async deleteReview(req, res, next) {
     try {
       const userId = req.user.id;

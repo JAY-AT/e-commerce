@@ -2,10 +2,12 @@ import NotificationModel from "./notification.repository.js";
 import AppError from "../../common/utilities/error.js";
 import { createNotifFormat } from "../../common/dtos/notification.js";
 
+// Trace point: getUserNotifications()
 export const getUserNotifications = async (userId) => {
   return await NotificationModel.findByUserId(userId);
 };
 
+// Trace point: getNotification()
 export const getNotification = async (id) => {
   const notif = await NotificationModel.findById(id);
 
@@ -14,15 +16,18 @@ export const getNotification = async (id) => {
   return notif;
 };
 
+// Trace point: getAdminNotifications()
 export const getAdminNotifications = async () => {
   return await NotificationModel.findAdminNotifications();
 };
 
+// Trace point: createNotification()
 export const createNotification = async (data) => {
   const notif = await NotificationModel.create(data);
   return notif;
 };
 
+// Trace point: markNotificationAsRead()
 export const markNotificationAsRead = async (id) => {
   const notif = await NotificationModel.markAsRead(id);
 
@@ -31,6 +36,7 @@ export const markNotificationAsRead = async (id) => {
   return notif;
 };
 
+// Trace point: markAllNotificationsAsRead()
 export const markAllNotificationsAsRead = async (user) => {
   if (user.role === "admin") {
     return await NotificationModel.markAllAsReadForAdmin();
@@ -39,11 +45,13 @@ export const markAllNotificationsAsRead = async (user) => {
   return await NotificationModel.markAllAsReadForUser(user.id);
 };
 
+// Trace point: deleteNotification()
 export const deleteNotification = async (id) => {
   const result = await NotificationModel.delete(id);
   return result;
 };
 
+// Trace point: deleteAllNotifications()
 export const deleteAllNotifications = async (user) => {
   if (user.role === "admin") {
     return await NotificationModel.deleteAllForAdmin();
@@ -52,6 +60,7 @@ export const deleteAllNotifications = async (user) => {
   return await NotificationModel.deleteAllForUser(user.id);
 };
 
+// Trace point: createOrderNotif()
 export const createOrderNotif = async (orderId, userId) => {
   const notifications = [];
 
@@ -78,6 +87,7 @@ export const createOrderNotif = async (orderId, userId) => {
   return await NotificationModel.bulkCreate(notifications, null); 
 };
 
+// Trace point: createPaymentNotif()
 export const createPaymentNotif = async (orderId, userId) => {
   const notifications = [];
 
@@ -104,6 +114,7 @@ export const createPaymentNotif = async (orderId, userId) => {
   return await NotificationModel.bulkCreate(notifications); 
 };
 
+// Trace point: customNotification()
 export const customNotification = async (message, type, target_role, user_id = null) => {
   const notifData = createNotifFormat({
     user_id,
@@ -114,6 +125,7 @@ export const customNotification = async (message, type, target_role, user_id = n
   return await NotificationModel.create(notifData);
 };
 
+// Trace point: handleCustomerUpdateNotification()
 export const handleCustomerUpdateNotification = async (orderId, userid, status) => {
   let message = "";
   if (status === "shipped") {
@@ -133,6 +145,7 @@ export const handleCustomerUpdateNotification = async (orderId, userid, status) 
   }
 }
 
+// Trace point: handleAdminUpdateNotification()
 export const handleAdminUpdateNotification = async (orderId, status) => {
   let message = "";
   if (status === "completed") {

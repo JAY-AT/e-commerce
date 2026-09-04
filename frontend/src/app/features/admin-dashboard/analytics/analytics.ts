@@ -75,8 +75,10 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
   private salesChart!: Chart;
   private ordersChart!: Chart;
 
+  // Trace point: constructor()
   constructor(private analyticsManager: AnalyticsManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.analyticsManager.init();
     this.data$ = this.analyticsManager.analytics$.pipe(
@@ -88,6 +90,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     if (this.salesChart) {
       this.salesChart.destroy();
@@ -98,10 +101,12 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: selectMetric()
   selectMetric(metric: FeaturedMetricKey): void {
     this.selectedMetric = metric;
   }
 
+  // Trace point: getSelectedMetric()
   getSelectedMetric(): FeaturedMetricConfig {
     return (
       this.featuredMetrics.find((metric) => metric.key === this.selectedMetric) ??
@@ -109,6 +114,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Trace point: getMetricValue()
   getMetricValue(data: AnalyticsData): number {
     switch (this.selectedMetric) {
       case 'totalSales':
@@ -126,6 +132,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     return 0;
   }
 
+  // Trace point: getMetricDelta()
   getMetricDelta(data: AnalyticsData): string {
     switch (this.selectedMetric) {
       case 'totalSales':
@@ -143,6 +150,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  // Trace point: formatMetricValue()
   formatMetricValue(data: AnalyticsData): string {
     const metric = this.getSelectedMetric();
     const value = this.getMetricValue(data);
@@ -158,11 +166,13 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: renderCharts()
   private renderCharts(data: AnalyticsData): void {
     this.createSalesChart(data);
     this.createOrdersChart(data);
   }
 
+  // Trace point: createSalesChart()
   private createSalesChart(data: AnalyticsData): void {
     if (this.salesChart) {
       this.salesChart.destroy();
@@ -193,6 +203,7 @@ export class AdminAnalyticsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: createOrdersChart()
   private createOrdersChart(data: AnalyticsData): void {
     if (this.ordersChart) {
       this.ordersChart.destroy();

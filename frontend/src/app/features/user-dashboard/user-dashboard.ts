@@ -37,17 +37,21 @@ export class UserDashboard implements OnInit {
     public productManager: ProductManager
   ) {}
   
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.notifManager.load();
   }
+  // Trace point: addToCart()
   addToCart(product: ProductListItem) {
     this.CartManager.addToCart(product);
   }
 
+  // Trace point: closeProductDisplay()
   closeProductDisplay() {
     this.productManager.deselectProduct();
   }
 
+  // Trace point: logout()
   logout() {
     this.OrderManager.clearState();
     this.notifManager.clearNotifications();

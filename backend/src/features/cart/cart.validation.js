@@ -3,6 +3,7 @@ import {
   requiredPositiveInteger,
 } from "../../common/validation/fields.js";
 
+// Trace point: validateCartProductId()
 export const validateCartProductId = (params) => {
   const { value, errors } = requiredPositiveInteger("itemId", params.itemId);
   return {
@@ -11,6 +12,7 @@ export const validateCartProductId = (params) => {
   };
 };
 
+// Trace point: validateAddCartItem()
 export const validateAddCartItem = (body) => {
   const errors = [];
   const value = {};
@@ -28,6 +30,7 @@ export const validateAddCartItem = (body) => {
 
 export const validateUpdateCartItem = validateAddCartItem;
 
+// Trace point: validateRemoveCartItem()
 export const validateRemoveCartItem = (body) => {
   const errors = [];
   const value = {};

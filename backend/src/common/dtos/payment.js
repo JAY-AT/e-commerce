@@ -1,3 +1,4 @@
+// Trace point: paymentDTO()
 export const paymentDTO = (payment) => ({
   id: payment.id,
   order_id: payment.order_id,
@@ -8,6 +9,7 @@ export const paymentDTO = (payment) => ({
   created_at: payment.created_at
 });
 
+// Trace point: getFullPaymentDTO()
 export const getFullPaymentDTO = (data) => {
   if (!data) return null;
 

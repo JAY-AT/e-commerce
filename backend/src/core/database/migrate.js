@@ -3,6 +3,7 @@ import path from "path";
 
 const MIGRATIONS_DIR = path.join(process.cwd(), "src/core/database/migrations");
 
+// Trace point: runMigrations()
 async function runMigrations(pool) {
 
   const files = fs

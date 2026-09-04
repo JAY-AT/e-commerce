@@ -22,6 +22,7 @@ export class CategoryManager {
     private api: CategoryApiService
   ) {}
 
+  // Trace point: load()
   private load(): void {
     if (this.isLoaded) return;
 
@@ -33,6 +34,7 @@ export class CategoryManager {
     ).subscribe();
   }
 
+  // Trace point: refreshCategories()
   refreshCategories(): Observable<CategoryItem[]> {
     return this.api.getCategories().pipe(
       tap(categories => {
@@ -42,12 +44,14 @@ export class CategoryManager {
     );
   }
 
+  // Trace point: getCategories()
   getCategories(): Observable<CategoryItem[]> {
     this.load();
 
     return this.category$;
   }
 
+  // Trace point: getCategoryById()
   getCategoryById(id: number): Observable<CategoryItem | undefined> {
     this.load();
 
@@ -56,6 +60,7 @@ export class CategoryManager {
     );
   }
 
+  // Trace point: createCategory()
   createCategory(category: CreateCategoryRequest): Observable<CategoryItem> {
     return this.api.createCategory(category).pipe(
       tap(createdCategory => {
@@ -68,6 +73,7 @@ export class CategoryManager {
     );
   }
 
+  // Trace point: updateCategory()
   updateCategory(id: number, category: UpdateCategoryRequest): Observable<CategoryItem> {
     return this.api.updateCategory(id, category).pipe(
       tap(updatedCategory => {
@@ -80,6 +86,7 @@ export class CategoryManager {
     );
   }
 
+  // Trace point: deleteCategory()
   deleteCategory(id: number): Observable<void> {
     return this.api.deleteCategory(id).pipe(
       tap(() => {

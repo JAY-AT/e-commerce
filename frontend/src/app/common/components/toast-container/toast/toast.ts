@@ -19,6 +19,7 @@ export class Toast implements OnChanges, OnDestroy {
 
   private timeoutId: ReturnType<typeof setTimeout> | null = null;
 
+  // Trace point: ngOnChanges()
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['open'] || changes['message']) {
       if (this.open) {
@@ -29,10 +30,12 @@ export class Toast implements OnChanges, OnDestroy {
     }
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.clearAutoClose();
   }
 
+  // Trace point: title()
   get title(): string {
     switch (this.type) {
       case 'success':
@@ -45,6 +48,7 @@ export class Toast implements OnChanges, OnDestroy {
     }
   }
 
+  // Trace point: icon()
   get icon(): string {
     switch (this.type) {
       case 'success':
@@ -57,11 +61,13 @@ export class Toast implements OnChanges, OnDestroy {
     }
   }
 
+  // Trace point: closeToast()
   closeToast(): void {
     this.clearAutoClose();
     this.closed.emit();
   }
 
+  // Trace point: startAutoClose()
   private startAutoClose(): void {
     this.clearAutoClose();
 
@@ -70,6 +76,7 @@ export class Toast implements OnChanges, OnDestroy {
     }
   }
 
+  // Trace point: clearAutoClose()
   private clearAutoClose(): void {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);

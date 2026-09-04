@@ -25,6 +25,7 @@ export class SupportChatComponent implements OnInit, OnDestroy {
     private uiManager: SupportUiManager
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.open$ = this.uiManager.open$;
     this.thread$ = this.supportManager.activeThread$;
@@ -35,14 +36,17 @@ export class SupportChatComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.openSub?.unsubscribe();
   }
 
+  // Trace point: close()
   close(): void {
     this.uiManager.close();
   }
 
+  // Trace point: sendMessage()
   sendMessage(): void {
     const message = this.draft.trim();
     if (!message) {
@@ -57,12 +61,14 @@ export class SupportChatComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: ensureThreadLoaded()
   ensureThreadLoaded(): void {
     if (!this.supportManager.getCurrentThread()) {
       this.supportManager.loadCustomerThread().subscribe();
     }
   }
 
+  // Trace point: trackByMessage()
   trackByMessage(_: number, message: SupportThreadDTO['messages'][number]): string {
     return message.id;
   }

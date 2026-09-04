@@ -19,6 +19,7 @@ export class ReviewApiService {
 
   private readonly baseUrl = `${environment.apiBaseUrl}/reviews`;
 
+  // Trace point: constructor()
   constructor(private http: HttpClient) {}
 
   /**

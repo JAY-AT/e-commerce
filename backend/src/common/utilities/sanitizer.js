@@ -1,3 +1,4 @@
+// Trace point: getSafe()
 export const getSafe = (data, fields = []) => {
   if (!data) return null;
 

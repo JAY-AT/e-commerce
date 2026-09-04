@@ -74,6 +74,7 @@ export class OrderManager {
   private readonly orderFullSubject = new BehaviorSubject<Order[]>([]);
   readonly orderFull$ = this.orderFullSubject.asObservable();
 
+  // Trace point: constructor()
   constructor(private api: OrderApiService, private notifManager: NotificationManager) {}
 
   // INITITALIZE THE SOURCE OF TRUTHS
@@ -103,6 +104,7 @@ export class OrderManager {
     ).subscribe();
   }
   
+  // Trace point: userLoad()
   userLoad(forceRefresh = false): void {
     
     if (this.isLoaded && !forceRefresh) return;
@@ -130,6 +132,7 @@ export class OrderManager {
     ).subscribe();
   }
 
+  // Trace point: refreshOrder()
   public refreshOrder(id: string | number): Observable<Order> {
     return this.api.getOrderById(String(id)).pipe(
       map(order => this.mapDetail(order)),
@@ -159,12 +162,14 @@ export class OrderManager {
     );
   } 
 
+  // Trace point: getDetailedOrder()
   public getDetailedOrder() : Observable<Order[]> {
     this.adminLoad();
 
     return this.orderFull$;
   }
 
+  // Trace point: mapSummary()
   private mapSummary(order: OrderSummary): Order {
     return {
       id: String(order.id),
@@ -178,6 +183,7 @@ export class OrderManager {
     };
   }
 
+  // Trace point: mapDetail()
   private mapDetail(order: OrderDetail): Order {
     return {
       id: String(order.id),
@@ -199,6 +205,7 @@ export class OrderManager {
     };
   }
 
+  // Trace point: placeOrder()
   placeOrder(_userId: string, _items: CartItem[], shippingAddr: string): Observable<Order> {
     const request: CreateOrderRequest = {
       shipping_addr: shippingAddr,
@@ -215,21 +222,25 @@ export class OrderManager {
     );
   }
 
+  // Trace point: getAllOrders()
   getAllOrders(): Observable<Order[]> {
     return this.orderFull$;
   }
 
+  // Trace point: getOrderById()
   getOrderById(orderId: string): Observable<Order> {
     return this.api.getOrderById(orderId).pipe(
       map(order => this.mapDetail(order))
     );
   }
 
+  // Trace point: getOrderData()
   getOrderData(): Observable<OrderData> {
     this.adminLoad();
     return this.orderData$;
   }
 
+  // Trace point: updateOrderStatus()
   updateOrderStatus(orderId: string, status: Order['status']): Observable<Order> {
     const request: UpdateOrderStatusRequest = { status };
 
@@ -247,6 +258,7 @@ export class OrderManager {
     );
   }
 
+  // Trace point: computeOrderData()
   private computeOrderData(orders: Order[]): OrderData {
     let totalQuantity = 0;
     let totalSpent = 0;
@@ -270,6 +282,7 @@ export class OrderManager {
     };
   }
 
+  // Trace point: clearState()
   clearState(): void {
     // Reset loading flag
     this.isLoaded = false;

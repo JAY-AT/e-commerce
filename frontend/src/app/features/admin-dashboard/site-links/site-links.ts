@@ -22,8 +22,10 @@ export class AdminSiteLinksComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
+  // Trace point: constructor()
   constructor(private footerManager: FooterManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.footerManager.footer$
       .pipe(takeUntil(this.destroy$))
@@ -32,11 +34,13 @@ export class AdminSiteLinksComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  // Trace point: addLink()
   addLink(group: FooterGroup): void {
     group.links.push({
       id: `link-${Date.now()}`,
@@ -45,10 +49,12 @@ export class AdminSiteLinksComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: removeLink()
   removeLink(group: FooterGroup, index: number): void {
     group.links.splice(index, 1);
   }
 
+  // Trace point: addSocialLink()
   addSocialLink(): void {
     this.draft.socials.push({
       id: `social-${Date.now()}`,
@@ -57,10 +63,12 @@ export class AdminSiteLinksComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: removeSocialLink()
   removeSocialLink(index: number): void {
     this.draft.socials.splice(index, 1);
   }
 
+  // Trace point: saveFooter()
   saveFooter(): void {
     if (!this.draft) return;
 

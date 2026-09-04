@@ -2,6 +2,7 @@ import UserModel from "../user/user.repository.js";
 import RefreshTokenModel from "./auth.model.js";
 
 export default class AuthRepository {
+  // Trace point: findUserByEmail()
   static async findUserByEmail(email, db = null) {
     const conn = db ?? UserModel.pool;
 
@@ -32,6 +33,7 @@ export default class AuthRepository {
     return rows[0];
   }
 
+  // Trace point: findUserById()
   static async findUserById(id, db = null) {
     const conn = db ?? UserModel.pool;
 
@@ -62,22 +64,27 @@ export default class AuthRepository {
     return rows[0];
   }
 
+  // Trace point: createUser()
   static async createUser(data, db = null) {
     return UserModel.create(data, db);
   }
 
+  // Trace point: createRefreshToken()
   static async createRefreshToken(data, db = null) {
     return RefreshTokenModel.create(data, db);
   }
 
+  // Trace point: findRefreshTokenByHash()
   static async findRefreshTokenByHash(tokenHash, db = null) {
     return RefreshTokenModel.findActiveByHash(tokenHash, db);
   }
 
+  // Trace point: revokeRefreshTokenByHash()
   static async revokeRefreshTokenByHash(tokenHash, db = null) {
     return RefreshTokenModel.revokeByHash(tokenHash, db);
   }
 
+  // Trace point: revokeRefreshTokensByUserId()
   static async revokeRefreshTokensByUserId(userId, db = null) {
     return RefreshTokenModel.revokeByUserId(userId, db);
   }

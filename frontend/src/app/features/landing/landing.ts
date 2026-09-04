@@ -26,6 +26,7 @@ export class Landing implements OnInit {
   constructor(private themeService: ThemeService,
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit() {
     this.themeService.darkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
@@ -34,14 +35,17 @@ export class Landing implements OnInit {
 
   }
 
+  // Trace point: toggleDarkMode()
   toggleDarkMode() {
     this.themeService.toggleDarkMode();
   }
 
+  // Trace point: toggleMobileMenu()
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
+  // Trace point: closeMobileMenu()
   closeMobileMenu() {
     this.isMobileMenuOpen = false;
   }

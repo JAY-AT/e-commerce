@@ -1,7 +1,9 @@
+// Trace point: asyncHandler()
 export const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
+// Trace point: globalErrorHandler()
 export const globalErrorHandler = (err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
@@ -14,6 +16,7 @@ export const globalErrorHandler = (err, req, res, next) => {
     });
 }
 
+// Trace point: withTransaction()
 export async function withTransaction(pool, callback) {
     const conn = await pool.getConnection();
 

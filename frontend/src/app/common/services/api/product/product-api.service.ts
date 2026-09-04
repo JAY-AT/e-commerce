@@ -21,6 +21,7 @@ export type ProductListItem = ProductListItemDTO;
 export class ProductApiService {
   private readonly baseUrl = `${environment.apiBaseUrl}/products`;
 
+  // Trace point: constructor()
   constructor(private http: HttpClient) {}
 
   /**

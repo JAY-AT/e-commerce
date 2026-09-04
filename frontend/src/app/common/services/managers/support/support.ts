@@ -28,6 +28,7 @@ export class SupportManager {
     private auth: AuthManager
   ) {}
 
+  // Trace point: loadCustomerThread()
   loadCustomerThread(): Observable<SupportThreadDTO | null> {
     const source$ = this.isAuthenticatedCustomer()
       ? this.api.getMyThread()
@@ -38,6 +39,7 @@ export class SupportManager {
     );
   }
 
+  // Trace point: sendCustomerMessage()
   sendCustomerMessage(message: string): Observable<SupportThreadDTO> {
     const cleaned = message.trim();
     if (!cleaned) {
@@ -54,6 +56,7 @@ export class SupportManager {
     );
   }
 
+  // Trace point: loadAdminThreads()
   loadAdminThreads(): Observable<SupportThreadDTO[]> {
     return this.api.getAdminThreads().pipe(
       tap((threads) => {
@@ -63,12 +66,14 @@ export class SupportManager {
     );
   }
 
+  // Trace point: selectAdminThread()
   selectAdminThread(threadId: number | string): Observable<SupportThreadDTO> {
     return this.api.getAdminThread(threadId).pipe(
       tap((thread) => this.setActiveThread(thread))
     );
   }
 
+  // Trace point: replyToThread()
   replyToThread(threadId: number | string, message: string): Observable<SupportThreadDTO> {
     const cleaned = message.trim();
     if (!cleaned) {
@@ -80,26 +85,31 @@ export class SupportManager {
     );
   }
 
+  // Trace point: markThreadRead()
   markThreadRead(threadId: number | string): Observable<SupportThreadDTO> {
     return this.api.markAdminThreadRead(threadId).pipe(
       tap((thread) => this.syncThread(thread))
     );
   }
 
+  // Trace point: closeThread()
   closeThread(threadId: number | string): Observable<SupportThreadDTO> {
     return this.api.closeAdminThread(threadId).pipe(
       tap((thread) => this.syncThread(thread))
     );
   }
 
+  // Trace point: getCurrentThread()
   getCurrentThread(): SupportThreadDTO | null {
     return this.activeThreadSubject.value;
   }
 
+  // Trace point: getUnreadCount()
   getUnreadCount(thread: SupportThreadDTO | null): number {
     return thread?.unread_count ?? 0;
   }
 
+  // Trace point: getLastCustomerMessage()
   getLastCustomerMessage(thread: SupportThreadDTO | null): SupportMessageDTO | null {
     if (!thread) {
       return null;
@@ -109,6 +119,7 @@ export class SupportManager {
     return customerMessages[customerMessages.length - 1] ?? null;
   }
 
+  // Trace point: getLastMessage()
   getLastMessage(thread: SupportThreadDTO | null): SupportMessageDTO | null {
     if (!thread) {
       return null;
@@ -117,6 +128,7 @@ export class SupportManager {
     return thread.messages[thread.messages.length - 1] ?? null;
   }
 
+  // Trace point: setActiveThread()
   private setActiveThread(thread: SupportThreadDTO | null): void {
     this.activeThreadSubject.next(thread);
     if (thread) {
@@ -124,6 +136,7 @@ export class SupportManager {
     }
   }
 
+  // Trace point: syncThread()
   private syncThread(thread: SupportThreadDTO): void {
     this.activeThreadSubject.next(thread);
 
@@ -135,10 +148,12 @@ export class SupportManager {
     this.threadsSubject.next(nextThreads);
   }
 
+  // Trace point: isAuthenticatedCustomer()
   private isAuthenticatedCustomer(): boolean {
     return this.auth.getRole() === 'customer';
   }
 
+  // Trace point: getVisitorKey()
   private getVisitorKey(): string {
     if (typeof window === 'undefined') {
       return 'server-visitor';
@@ -154,11 +169,13 @@ export class SupportManager {
     return nextValue;
   }
 
+  // Trace point: logoutOrSwitchAccount()
   logoutOrSwitchAccount(): void {
   this.resetSupportState();
   this.auth.logout?.();
 }
 
+  // Trace point: resetSupportState()
   public resetSupportState(): void {
     this.threadsSubject.next([]);
     this.activeThreadSubject.next(null);

@@ -30,12 +30,15 @@ export class OrderCardComponent {
   isLoading = signal(false);
 
   isExpanded = true; 
+  // Trace point: constructor()
   constructor (private manager: ReviewManager, private toast: ToastManager, private orderManager: OrderManager) {}
 
+  // Trace point: toggle()
   toggle(): void {
     this.isExpanded = !this.isExpanded;
   }
 
+  // Trace point: isPaymentValid()
   get isPaymentValid(): boolean {
     return (
       this.paymentAmount !== null &&
@@ -43,6 +46,7 @@ export class OrderCardComponent {
     );
   }
 
+  // Trace point: paymentMethodLabel()
   get paymentMethodLabel(): string {
     switch (this.order.paymentMethod) {
       case 'cod':
@@ -60,19 +64,23 @@ export class OrderCardComponent {
     }
   }
 
+  // Trace point: receivedOrder()
   receivedOrder() : void {
     return this.updateOrder('completed');
   }
 
+  // Trace point: cancelOrder()
   cancelOrder() : void {
     return this.updateOrder('cancelled');
   }
 
+  // Trace point: returnOrder()
   returnOrder() : void {
     return this.updateOrder('refund');
   }
 
   
+  // Trace point: updateOrder()
   updateOrder(status: OrderStatusDTO): void {
     this.orderManager.updateOrderStatus(this.order.id, status).pipe(
       finalize(() => {
@@ -88,6 +96,7 @@ export class OrderCardComponent {
     )
   }
 
+  // Trace point: payOrder()
   payOrder(): void {
     if (!this.isPaymentValid) return;
 
@@ -99,10 +108,12 @@ export class OrderCardComponent {
     this.paymentAmount = null;
   }
 
+  // Trace point: setRating()
   setRating(value: number) {
     this.reviewRating = value;
   }
 
+  // Trace point: submitReview()
   submitReview() {
     if (!this.order.review && this.reviewRating > 0) {
 

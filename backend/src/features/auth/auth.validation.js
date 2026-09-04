@@ -4,6 +4,7 @@ import {
   requiredString,
 } from "../../common/validation/fields.js";
 
+// Trace point: validateRegister()
 export const validateRegister = (body) => {
   const errors = [];
   const value = {};
@@ -31,6 +32,7 @@ export const validateRegister = (body) => {
   return { value, errors };
 };
 
+// Trace point: validateLogin()
 export const validateLogin = (body) => {
   const errors = [];
   const value = {};

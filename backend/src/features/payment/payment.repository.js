@@ -54,6 +54,7 @@ export default class PaymentsRepository extends BaseModel {
     return rows[0];
   }
 
+  // Trace point: updateCheckoutFields()
   static async updateCheckoutFields(paymentId, data) {
     const fields = [];
     const values = [];

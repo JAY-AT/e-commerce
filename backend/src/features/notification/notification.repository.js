@@ -12,6 +12,7 @@ export default class NotificationModel extends BaseModel {
     "created_at"
   ];
 
+  // Trace point: findByUserId()
   static async findByUserId(userId, db = null) {
     const conn = db ?? this.pool;
 
@@ -28,6 +29,7 @@ export default class NotificationModel extends BaseModel {
     return rows;
   }
 
+  // Trace point: markAsRead()
   static async markAsRead(id, db = null) {
     const conn = db ?? this.pool;
 
@@ -41,6 +43,7 @@ export default class NotificationModel extends BaseModel {
     return this.findById(id, conn);
   }
 
+  // Trace point: markAllAsReadForUser()
   static async markAllAsReadForUser(userId, db = null) {
     const conn = db ?? this.pool;
 
@@ -52,6 +55,7 @@ export default class NotificationModel extends BaseModel {
     return result.affectedRows;
   }
 
+  // Trace point: markAllAsReadForAdmin()
   static async markAllAsReadForAdmin(db = null) {
     const conn = db ?? this.pool;
 
@@ -62,6 +66,7 @@ export default class NotificationModel extends BaseModel {
     return result.affectedRows;
   }
 
+  // Trace point: deleteAllForUser()
   static async deleteAllForUser(userId, db = null) {
     const conn = db ?? this.pool;
 
@@ -73,6 +78,7 @@ export default class NotificationModel extends BaseModel {
     return result.affectedRows;
   }
 
+  // Trace point: deleteAllForAdmin()
   static async deleteAllForAdmin(db = null) {
     const conn = db ?? this.pool;
 
@@ -83,6 +89,7 @@ export default class NotificationModel extends BaseModel {
     return result.affectedRows;
   }
 
+  // Trace point: findAdminNotifications()
   static async findAdminNotifications(db = null) {
   const conn = db ?? this.pool;
 

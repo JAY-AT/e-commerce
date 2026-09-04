@@ -16,6 +16,7 @@ export class AdminCommandCenterComponent {
 
   readonly sections = ADMIN_SECTION_ITEMS;
 
+  // Trace point: selectSection()
   selectSection(section: AdminSection): void {
     this.sectionChange.emit(section);
   }

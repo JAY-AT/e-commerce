@@ -1,6 +1,7 @@
 import { productCartDTO } from "./product.js";
 
 
+// Trace point: cartItemFullDTO()
 export const cartItemFullDTO = (item, product) => {
   const subtotal = product.price * item.quantity;
 
@@ -19,6 +20,7 @@ export const cartItemFullDTO = (item, product) => {
 };
 
 
+// Trace point: cartFullDTO()
 export const cartFullDTO = (rows) => {
   if (!rows || rows.length === 0) {
     return {

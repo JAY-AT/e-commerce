@@ -28,6 +28,7 @@ export class ToastService {
 
   private timeoutId: any;
 
+  // Trace point: show()
   show(message: string, type: ToastType = 'info', duration = 1200): void {
     clearTimeout(this.timeoutId);
 
@@ -45,6 +46,7 @@ export class ToastService {
     }
   }
 
+  // Trace point: hide()
   hide(): void {
     clearTimeout(this.timeoutId);
 

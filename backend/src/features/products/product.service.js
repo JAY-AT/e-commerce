@@ -4,6 +4,7 @@ import AppError from "../../common/utilities/error.js";
 import { withTransaction } from "../../common/utilities/handler.js";
 import ProductRepository from "./product.repository.js";
 
+// Trace point: normalizeImageUrl()
 const normalizeImageUrl = (value) => {
   if (!value) {
     return null;
@@ -31,6 +32,7 @@ const normalizeImageUrl = (value) => {
   return `/assets/images/${cleaned}`;
 };
 
+// Trace point: mapDuplicateProductError()
 const mapDuplicateProductError = (err) => {
   if (err?.code === "ER_DUP_ENTRY" || err?.errno === 1062) {
     throw new AppError("Product name already exists", 409);
@@ -40,6 +42,7 @@ const mapDuplicateProductError = (err) => {
 };
 
 export const ProductService = {
+  // Trace point: getAllProducts()
   async getAllProducts() {
         const rows = await ProductRepository.findAllFull();
 
@@ -73,6 +76,7 @@ export const ProductService = {
         );
     },
 
+  // Trace point: getProductById()
   async getProductById(id) {
         const rows = await ProductRepository.findFullById(id);
 
@@ -93,6 +97,7 @@ export const ProductService = {
         return productDetailDTO(product, category, images);
     },
 
+  // Trace point: createProduct()
   async createProduct(data) {
   const productName = String(data.name ?? '').trim();
   const existing = await ProductRepository.findByName(productName);
@@ -140,6 +145,7 @@ export const ProductService = {
   }
 },
 
+  // Trace point: updateProduct()
   async updateProduct(id, data) {
     const productId = Number(id);
     if (!Number.isSafeInteger(productId) || productId <= 0) {
@@ -181,6 +187,7 @@ export const ProductService = {
     }
   },
 
+  // Trace point: deleteProduct()
   async deleteProduct(id) {
     const product = await ProductRepository.findById(id);
     if (!product) throw new Error("Product not found");

@@ -23,8 +23,10 @@ export class LandingTestimonialsComponent implements OnInit{
     { name: 'Anna Davis', text: 'Warm service, quick checkout, and pastries that disappear fast.', initial: 'A' },
   ];
 
+  // Trace point: constructor()
   constructor(public reviewManager: ReviewManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.reviewManager.loadTopReviews();
   }

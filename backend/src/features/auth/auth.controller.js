@@ -1,10 +1,12 @@
 import { asyncHandler } from "../../common/utilities/handler.js";
 import { login, logout, me, register, refresh, authCookieOptions } from "./auth.service.js";
 
+// Trace point: setRefreshCookie()
 function setRefreshCookie(res, token) {
   res.cookie("refresh_token", token, authCookieOptions);
 }
 
+// Trace point: clearRefreshCookie()
 function clearRefreshCookie(res) {
   res.clearCookie("refresh_token", {
     path: authCookieOptions.path,

@@ -26,14 +26,17 @@ export class AdminChatSupportComponent implements OnInit {
   showCustomerProfile = false;
   mobileDetailOpen = false;
 
+  // Trace point: constructor()
   constructor(private supportManager: SupportManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.threads$ = this.supportManager.threads$;
     this.activeThread$ = this.supportManager.activeThread$;
     this.supportManager.loadAdminThreads().subscribe();
   }
 
+  // Trace point: selectThread()
   selectThread(thread: SupportThreadDTO): void {
     this.showCustomerProfile = false;
     this.mobileDetailOpen = true;
@@ -44,10 +47,12 @@ export class AdminChatSupportComponent implements OnInit {
     });
   }
 
+  // Trace point: backToThreadList()
   backToThreadList(): void {
     this.mobileDetailOpen = false;
   }
 
+  // Trace point: reply()
   reply(activeThread: SupportThreadDTO | null): void {
     if (!activeThread) {
       return;
@@ -61,6 +66,7 @@ export class AdminChatSupportComponent implements OnInit {
     });
   }
 
+  // Trace point: closeThread()
   closeThread(activeThread: SupportThreadDTO | null): void {
     if (!activeThread) {
       return;
@@ -69,35 +75,43 @@ export class AdminChatSupportComponent implements OnInit {
     this.supportManager.closeThread(activeThread.id).subscribe();
   }
 
+  // Trace point: toggleCustomerProfile()
   toggleCustomerProfile(): void {
     this.showCustomerProfile = !this.showCustomerProfile;
   }
 
+  // Trace point: getCustomerProfileToggleLabel()
   getCustomerProfileToggleLabel(): string {
     return this.showCustomerProfile ? 'Hide profile' : 'Show profile';
   }
 
+  // Trace point: trackByThread()
   trackByThread(_: number, thread: SupportThreadDTO): number {
     return thread.id;
   }
 
+  // Trace point: trackByMessage()
   trackByMessage(_: number, message: SupportMessageDTO): string {
     return message.id;
   }
 
+  // Trace point: getThreadLabel()
   getThreadLabel(thread: SupportThreadDTO): string {
     return thread.user_name || thread.user_email || `Thread #${thread.id}`;
   }
 
+  // Trace point: getThreadPreview()
   getThreadPreview(thread: SupportThreadDTO): string {
     const lastMessage = thread.messages[thread.messages.length - 1];
     return lastMessage?.body ?? 'No messages yet';
   }
 
+  // Trace point: setThreadFilter()
   setThreadFilter(filter: 'newest' | 'unread' | 'open'): void {
     this.threadFilter = filter;
   }
 
+  // Trace point: filterThreads()
   filterThreads(threads: SupportThreadDTO[]): SupportThreadDTO[] {
     const query = this.searchQuery.trim().toLowerCase();
     const filtered = threads.filter((thread) => {
@@ -133,6 +147,7 @@ export class AdminChatSupportComponent implements OnInit {
     });
   }
 
+  // Trace point: getThreadInitials()
   getThreadInitials(thread: SupportThreadDTO): string {
     const source = this.getThreadLabel(thread).trim();
     if (!source) {
@@ -150,26 +165,32 @@ export class AdminChatSupportComponent implements OnInit {
       .slice(0, 2);
   }
 
+  // Trace point: getThreadChannel()
   getThreadChannel(thread: SupportThreadDTO): string {
     return thread.visitor_key ? 'Guest visitor' : 'Registered customer';
   }
 
+  // Trace point: getThreadLastActivity()
   getThreadLastActivity(thread: SupportThreadDTO): string {
     return this.formatCompactDate(thread.last_message_at || thread.updated_at);
   }
 
+  // Trace point: getThreadMessageCount()
   getThreadMessageCount(thread: SupportThreadDTO): number {
     return thread.messages.length;
   }
 
+  // Trace point: getOpenThreadCount()
   getOpenThreadCount(threads: SupportThreadDTO[]): number {
     return threads.filter((thread) => thread.status === 'open').length;
   }
 
+  // Trace point: getUnreadThreadCount()
   getUnreadThreadCount(threads: SupportThreadDTO[]): number {
     return threads.reduce((total, thread) => total + thread.unread_count, 0);
   }
 
+  // Trace point: getMessageRoleLabel()
   getMessageRoleLabel(message: SupportMessageDTO): string {
     if (message.sender === 'admin') {
       return 'You';
@@ -182,6 +203,7 @@ export class AdminChatSupportComponent implements OnInit {
     return 'Customer';
   }
 
+  // Trace point: getMessageAlignment()
   getMessageAlignment(message: SupportMessageDTO): 'incoming' | 'outgoing' | 'system' {
     if (message.sender === 'admin') {
       return 'outgoing';
@@ -194,32 +216,39 @@ export class AdminChatSupportComponent implements OnInit {
     return 'incoming';
   }
 
+  // Trace point: getMessageTimestamp()
   getMessageTimestamp(message: SupportMessageDTO): string {
     return this.formatCompactDate(message.created_at);
   }
 
+  // Trace point: getThreadSummary()
   getThreadSummary(thread: SupportThreadDTO): string {
     const firstCustomerMessage = thread.messages.find((message) => message.sender === 'customer');
     return firstCustomerMessage?.body ?? this.getThreadPreview(thread);
   }
 
+  // Trace point: getThreadCreatedAt()
   getThreadCreatedAt(thread: SupportThreadDTO): string {
     return this.formatCompactDate(thread.created_at);
   }
 
+  // Trace point: getThreadActivityLabel()
   getThreadActivityLabel(thread: SupportThreadDTO): string {
     const lastActivity = this.getThreadLastActivity(thread);
     return lastActivity ? `Last update ${lastActivity}` : 'Recently active';
   }
 
+  // Trace point: getCustomerContactLabel()
   getCustomerContactLabel(thread: SupportThreadDTO): string {
     return thread.user_email || 'No email captured';
   }
 
+  // Trace point: getCustomerSourceLabel()
   getCustomerSourceLabel(thread: SupportThreadDTO): string {
     return thread.visitor_key ? 'Guest session' : 'Authenticated account';
   }
 
+  // Trace point: formatCompactDate()
   private formatCompactDate(value: string): string {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {

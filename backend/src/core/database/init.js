@@ -7,6 +7,7 @@ import runSeeds from "./seed.js";
 
 dotenv.config();
 
+// Trace point: createMigrationsTable()
 async function createMigrationsTable(pool) {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS migrations (
@@ -17,6 +18,7 @@ async function createMigrationsTable(pool) {
   `);
 }
 
+// Trace point: createSeedsTable()
 async function createSeedsTable(pool) {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS seeds (
@@ -27,6 +29,7 @@ async function createSeedsTable(pool) {
   `);
 }
 
+// Trace point: init()
 async function init() {
   try {
     await initializeDb(database);

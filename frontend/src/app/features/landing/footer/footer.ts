@@ -14,6 +14,7 @@ import { FooterContent, FooterManager } from '@common/services/managers/footer/f
 export class LandingFooterComponent {
   footer$: Observable<FooterContent>;
 
+  // Trace point: constructor()
   constructor(private footerManager: FooterManager) {
     this.footer$ = this.footerManager.footer$;
   }

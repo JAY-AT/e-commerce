@@ -6,6 +6,7 @@ import { DomPlatform } from "chart.js";
 
 export class OrderMapper {
 
+  // Trace point: toOrder()
   static toOrder(dto: OrderDetailDTO): Order {
   return {
     id: String(dto.id),              
@@ -20,6 +21,7 @@ export class OrderMapper {
   };
 }
 
+  // Trace point: toOrderList()
   static toOrderList(dtos: OrderDetailDTO[]): Order[] {
     return dtos.map(this.toOrder);
   }

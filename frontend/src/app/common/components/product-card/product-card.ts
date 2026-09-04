@@ -18,6 +18,7 @@ export class ProductCardComponent {
     public productManager: ProductManager
   ) {}
 
+  // Trace point: selectProduct()
   selectProduct(product: ProductListItem) {
     this.productManager.selectProduct(Number(product.id)).subscribe();
   }

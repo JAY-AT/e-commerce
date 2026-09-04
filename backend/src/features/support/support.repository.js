@@ -14,6 +14,7 @@ const THREAD_COLUMNS = [
   "updated_at",
 ];
 
+// Trace point: parseMessages()
 const parseMessages = (messages) => {
   if (!messages) {
     return [];
@@ -31,6 +32,7 @@ const parseMessages = (messages) => {
   }
 };
 
+// Trace point: normalizeThread()
 const normalizeThread = (thread) => {
   if (!thread) {
     return null;
@@ -43,11 +45,13 @@ const normalizeThread = (thread) => {
   };
 };
 
+// Trace point: serializeThread()
 const serializeThread = (thread) => ({
   ...thread,
   messages: JSON.stringify(thread.messages ?? []),
 });
 
+// Trace point: buildWritableThread()
 const buildWritableThread = (thread) => {
   const {
     id,
@@ -62,6 +66,7 @@ const buildWritableThread = (thread) => {
 export default class SupportThreadModel extends BaseModel {
   static table = "support_threads";
 
+  // Trace point: findAllThreads()
   static async findAllThreads(db = null) {
     const conn = db ?? this.pool;
 
@@ -76,6 +81,7 @@ export default class SupportThreadModel extends BaseModel {
     return rows.map(normalizeThread);
   }
 
+  // Trace point: findByUserId()
   static async findByUserId(userId, db = null) {
     const conn = db ?? this.pool;
 
@@ -92,6 +98,7 @@ export default class SupportThreadModel extends BaseModel {
     return normalizeThread(rows[0]);
   }
 
+  // Trace point: findByVisitorKey()
   static async findByVisitorKey(visitorKey, db = null) {
     const conn = db ?? this.pool;
 
@@ -108,11 +115,13 @@ export default class SupportThreadModel extends BaseModel {
     return normalizeThread(rows[0]);
   }
 
+  // Trace point: findThreadById()
   static async findThreadById(id, db = null) {
     const thread = await this.findById(id, db);
     return normalizeThread(thread);
   }
 
+  // Trace point: createThread()
   static async createThread(data, db = null) {
     const conn = db ?? this.pool;
     const payload = serializeThread(buildWritableThread(data));
@@ -127,6 +136,7 @@ export default class SupportThreadModel extends BaseModel {
     return this.findThreadById(result.insertId, conn);
   }
 
+  // Trace point: replaceThread()
   static async replaceThread(id, data, db = null) {
     const conn = db ?? this.pool;
     const payload = serializeThread(buildWritableThread(data));

@@ -10,12 +10,15 @@ import {
   providedIn: 'root',
 })
 export class PaymentManager {
+  // Trace point: constructor()
   constructor(private api: PaymentApiService) {}
 
+  // Trace point: checkoutPayment()
   checkoutPayment(data: CheckoutPaymentRequest): Observable<PaymentCheckoutResponse> {
     return this.api.checkoutPayment(data);
   }
 
+  // Trace point: getPaymentById()
   getPaymentById(id: number | string): Observable<PaymentCheckoutResponse> {
     return this.api.getPaymentById(id);
   }

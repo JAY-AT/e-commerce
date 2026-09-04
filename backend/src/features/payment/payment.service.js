@@ -6,6 +6,7 @@ import { createPaymentNotif } from "../notification/notification.service.js";
 
 export default class PaymentService {
 
+  // Trace point: checkoutPayment()
   static async checkoutPayment(userId, data) {
     const { order_id, payment_method, cash } = data;
 
@@ -92,6 +93,7 @@ export default class PaymentService {
     return getFullPaymentDTO(fullPayment);
   }
 
+  // Trace point: getPaymentById()
   static async getPaymentById(userId, paymentId) {
     // 1. Get full payment (JOIN)
     const payment = await PaymentsRepository.findFullById(paymentId);

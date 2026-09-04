@@ -1,6 +1,7 @@
 import { ProductDetailDTO, ProductListItemDTO } from "@common/dtos/product.dto";
 import { ProductListItem } from "@common/models/product";
 
+// Trace point: toListItem()
 export function toListItem(dto: ProductDetailDTO): ProductListItem {
   return {
     id: String(dto.id),

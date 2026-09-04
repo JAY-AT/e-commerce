@@ -56,11 +56,13 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.loadCategories();
     this.products$ = this.manager.getProducts();
   }
 
+  // Trace point: loadCategories()
   loadCategories(): void {
     this.categoryManager.refreshCategories().subscribe({
       next: (categories) => {
@@ -72,19 +74,23 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  // Trace point: openCreateForm()
   openCreateForm(): void {
     this.showCreateForm = true;
   }
 
+  // Trace point: closeCreateForm()
   closeCreateForm(): void {
     this.showCreateForm = false;
   }
 
+  // Trace point: handleProductCreated()
   handleProductCreated(): void {
     this.showCreateForm = false;
     this.refreshRequested.emit();
   }
 
+  // Trace point: selectProduct()
   selectProduct(product: ProductListItem): void {
     this.selectedSummary = product;
     
@@ -114,6 +120,7 @@ export class AdminProductsComponent implements OnInit {
   }
 
 
+  // Trace point: closeEditor()
   closeEditor(): void {
     this.selectedSummary = null;
     this.selectedProduct = null;
@@ -127,6 +134,7 @@ export class AdminProductsComponent implements OnInit {
     });
   }
 
+  // Trace point: adjustStock()
   adjustStock(delta: number): void {
     if (!this.selectedProductId || !Number.isInteger(delta)) {
       return;
@@ -141,6 +149,7 @@ export class AdminProductsComponent implements OnInit {
     stockControl.markAsTouched();
   }
 
+// Trace point: saveProduct()
 saveProduct(): void {
   if (!this.selectedProduct || this.selectedProductId === null) {
     this.toastManager.error('Select a product before saving changes.');
@@ -226,6 +235,7 @@ saveProduct(): void {
   });
 }
 
+  // Trace point: deleteProduct()
   deleteProduct(): void {
     if (!this.selectedProduct) return;
 
@@ -247,18 +257,22 @@ saveProduct(): void {
     });
   }
 
+  // Trace point: selectedCategoryLabel()
   get selectedCategoryLabel(): string {
     return this.selectedSummary?.category_name ?? 'Uncategorized';
   }
 
+  // Trace point: selectedImageUrl()
   get selectedImageUrl(): string | null {
     return this.selectedProduct?.images?.[0]?.image_url ?? this.selectedSummary?.image_url ?? null;
   }
 
+  // Trace point: trackByProductId()
   trackByProductId(_: number, product: ProductListItem): string {
     return product.id;
   }
 
+  // Trace point: mapDetailToList()
   private mapDetailToList(item: ProductDetailDTO): ProductListItem {
   return {
     id: String(item.id),

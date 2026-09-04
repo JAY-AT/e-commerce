@@ -40,6 +40,7 @@ export class Profile implements OnInit {
     });
   }
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
     if (!user) {
@@ -75,6 +76,7 @@ export class Profile implements OnInit {
     });
   }
 
+  // Trace point: saveProfile()
   saveProfile(): void {
     if (this.profileForm.invalid) {
       this.profileForm.markAllAsTouched();
@@ -133,10 +135,12 @@ export class Profile implements OnInit {
     });
   }
 
+  // Trace point: backToShop()
   backToShop(): void {
     this.router.navigate(['/user-dashboard']);
   }
 
+  // Trace point: logout()
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

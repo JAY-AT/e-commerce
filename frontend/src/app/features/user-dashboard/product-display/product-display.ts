@@ -39,10 +39,12 @@ export class ProductDisplayComponent
   constructor( private cartManager: CartManager,
     private toastManager: ToastManager
   ) {}
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     console.log('ProductDisplayComponent initialized with product:', this.product);
   }
 
+  // Trace point: ngOnChanges()
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['product']) {
       this.activeImageIndex = 0;
@@ -51,18 +53,22 @@ export class ProductDisplayComponent
     }
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.clearSlideshow();
   }
 
+  // Trace point: images()
   get images() {
     return this.product?.images ?? [];
   }
 
+  // Trace point: hasMultipleImages()
   get hasMultipleImages(): boolean {
     return this.images.length > 1;
   }
 
+  // Trace point: currentImageUrl()
   get currentImageUrl(): string | null {
     if (!this.product) return null;
 
@@ -73,6 +79,7 @@ export class ProductDisplayComponent
       ?? null;
   }
 
+  // Trace point: nextImage()
   nextImage(): void {
     if (!this.hasMultipleImages) return;
 
@@ -80,6 +87,7 @@ export class ProductDisplayComponent
       (this.activeImageIndex + 1) % this.images.length;
   }
 
+  // Trace point: previousImage()
   previousImage(): void {
     if (!this.hasMultipleImages) return;
 
@@ -88,6 +96,7 @@ export class ProductDisplayComponent
       % this.images.length;
   }
 
+  // Trace point: selectImage()
   selectImage(index: number): void {
     if (index < 0 || index >= this.images.length) return;
 
@@ -99,10 +108,12 @@ export class ProductDisplayComponent
     return image.id;
   }
 
+  // Trace point: onBack()
   onBack(): void {
     this.back.emit();
   }
 
+  // Trace point: syncSlideshow()
   private syncSlideshow(): void {
     this.clearSlideshow();
 
@@ -113,6 +124,7 @@ export class ProductDisplayComponent
     }, 4500);
   }
 
+  // Trace point: clearSlideshow()
   private clearSlideshow(): void {
     if (this.slideshowTimer) {
       clearInterval(this.slideshowTimer);
@@ -120,6 +132,7 @@ export class ProductDisplayComponent
     }
   }
 
+  // Trace point: addToCart()
   addToCart(product: ProductDetailDTO, quantity: number): void {
     try {
       this.cartManager.addToCart(toListItem(product), quantity);

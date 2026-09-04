@@ -17,6 +17,7 @@ import AddressRepository from "../address/address.repository.js";
 
 const REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
+// Trace point: buildTokenPair()
 function buildTokenPair(user) {
   const payload = {
     id: user.id,
@@ -30,6 +31,7 @@ function buildTokenPair(user) {
   };
 }
 
+// Trace point: getRefreshTokenExpiry()
 function getRefreshTokenExpiry(refreshToken) {
   const decoded = decodeToken(refreshToken);
 
@@ -40,6 +42,7 @@ function getRefreshTokenExpiry(refreshToken) {
   return new Date(decoded.exp * 1000);
 }
 
+// Trace point: getRefreshTokenFromRequest()
 function getRefreshTokenFromRequest(req) {
   return (
     req.body?.refresh_token ||
@@ -49,6 +52,7 @@ function getRefreshTokenFromRequest(req) {
   );
 }
 
+// Trace point: persistRefreshToken()
 async function persistRefreshToken(conn, userId, refreshToken) {
   return AuthRepository.createRefreshToken(
     {
@@ -60,6 +64,7 @@ async function persistRefreshToken(conn, userId, refreshToken) {
   );
 }
 
+// Trace point: loadUserById()
 async function loadUserById(id, db = null) {
   const user = await AuthRepository.findUserById(id, db);
 
@@ -70,6 +75,7 @@ async function loadUserById(id, db = null) {
   return user;
 }
 
+// Trace point: register()
 export const register = async (payload) => {
   const existingUser = await AuthRepository.findUserByEmail(payload.email);
 
@@ -110,6 +116,7 @@ export const register = async (payload) => {
   });
 };
 
+// Trace point: login()
 export const login = async (payload) => {
   const user = await AuthRepository.findUserByEmail(payload.email);
 
@@ -124,11 +131,13 @@ export const login = async (payload) => {
   return authDTO(user, tokens);
 };
 
+// Trace point: me()
 export const me = async (userId) => {
   const user = await loadUserById(userId);
   return publicUserDTO(user);
 };
 
+// Trace point: logout()
 export const logout = async (req) => {
   const refreshToken = getRefreshTokenFromRequest(req);
 
@@ -144,6 +153,7 @@ export const logout = async (req) => {
   };
 };
 
+// Trace point: refresh()
 export const refresh = async (req) => {
   const refreshToken = getRefreshTokenFromRequest(req);
 

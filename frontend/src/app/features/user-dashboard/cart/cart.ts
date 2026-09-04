@@ -24,6 +24,7 @@ export class CartComponent {
     this.totalPrice$ = this.CartManager.totalPrice$;
   }
 
+  // Trace point: checkout()
   checkout(): void {
     this.router.navigate(['/checkout']);
   }

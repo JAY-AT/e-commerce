@@ -3,6 +3,7 @@ import BaseModel from "../../common/model/orm/base.js";
 export default class CartRepository extends BaseModel {
     static table = "carts";
 
+    // Trace point: findFullByUserId()
     static async findFullByUserId(userId, db = null) {
         const conn = db ?? this.pool;
         const [rows] = await conn.query(
@@ -37,6 +38,7 @@ export default class CartRepository extends BaseModel {
         return rows;
     }
 
+    // Trace point: findCheckoutItemsByUserId()
     static async findCheckoutItemsByUserId(userId, db = null) {
         const conn = db ?? this.pool;
         const [rows] = await conn.query(
@@ -71,6 +73,7 @@ export default class CartRepository extends BaseModel {
         return rows;
     }
 
+    // Trace point: findByUserId()
     static async findByUserId(userId, db = null) {
         const conn = db ?? this.pool;
         const [rows] = await conn.query(
@@ -80,6 +83,7 @@ export default class CartRepository extends BaseModel {
         return rows[0];
     }
 
+    // Trace point: createForUser()
     static async createForUser(userId, db = null) {
         return this.create({ user_id: userId }, db);
     }

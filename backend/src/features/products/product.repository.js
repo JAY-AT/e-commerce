@@ -3,6 +3,7 @@ import BaseModel from "../../common/model/orm/base.js";
 export default class ProductRepository extends BaseModel {
   static table = "products";
 
+  // Trace point: findByName()
   static async findByName(name, db = null) {
     const conn = db ?? this.pool;
 
@@ -14,6 +15,7 @@ export default class ProductRepository extends BaseModel {
     return rows[0] ?? null;
   }
 
+  // Trace point: findByNameExceptId()
   static async findByNameExceptId(name, id, db = null) {
     const conn = db ?? this.pool;
 
@@ -25,6 +27,7 @@ export default class ProductRepository extends BaseModel {
     return rows[0] ?? null;
   }
 
+  // Trace point: update()
   static async update(id, data) {
     const allowedFields = ["name", "description", "price", "stock", "category_id"];
     const fields = allowedFields.filter((field) => Object.prototype.hasOwnProperty.call(data, field));
@@ -44,6 +47,7 @@ export default class ProductRepository extends BaseModel {
     return this.findById(id);
   }
 
+  // Trace point: findStocksForUpdate()
   static async findStocksForUpdate(productIds, db = null) {
     if (!productIds.length) return [];
 
@@ -61,6 +65,7 @@ export default class ProductRepository extends BaseModel {
     return rows;
   }
 
+  // Trace point: decrementStock()
   static async decrementStock(productId, quantity, db = null) {
     const conn = db ?? this.pool;
 
@@ -75,6 +80,7 @@ export default class ProductRepository extends BaseModel {
   }
 
 
+  // Trace point: findFullById()
   static async findFullById(id) {
         const [rows] = await this.pool.query(
             `SELECT 
@@ -103,6 +109,7 @@ export default class ProductRepository extends BaseModel {
         return rows; 
     }
 
+  // Trace point: findAllFull()
   static async findAllFull() {
         const [rows] = await this.pool.query(
             `SELECT 

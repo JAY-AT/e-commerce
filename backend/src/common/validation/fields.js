@@ -1,8 +1,10 @@
+// Trace point: cleanString()
 const cleanString = (value) => {
   if (typeof value !== 'string') return value;
   return value.trim();
 };
 
+// Trace point: requiredString()
 export const requiredString = (field, value, options = {}) => {
   const {
     min = 1,
@@ -35,6 +37,7 @@ export const requiredString = (field, value, options = {}) => {
   return { value: nextValue, errors };
 };
 
+// Trace point: optionalString()
 export const optionalString = (field, value, options = {}) => {
   const {
     min = 0,
@@ -70,6 +73,7 @@ export const optionalString = (field, value, options = {}) => {
   return { value: nextValue, errors };
 };
 
+// Trace point: requiredNumber()
 export const requiredNumber = (field, value, options = {}) => {
   const {
     integer = false,
@@ -100,6 +104,7 @@ export const requiredNumber = (field, value, options = {}) => {
   return { value: nextValue, errors };
 };
 
+// Trace point: optionalNumber()
 export const optionalNumber = (field, value, options = {}) => {
   const {
     integer = false,
@@ -135,6 +140,7 @@ export const optionalNumber = (field, value, options = {}) => {
   return { value: nextValue, errors };
 };
 
+// Trace point: requiredRating()
 export const requiredRating = (field, value) => {
   const num = Number(value);
 
@@ -150,12 +156,15 @@ export const requiredRating = (field, value) => {
   };
 };
 
+// Trace point: requiredPositiveInteger()
 export const requiredPositiveInteger = (field, value) =>
   requiredNumber(field, value, { integer: true, min: 1 });
 
+// Trace point: optionalPositiveInteger()
 export const optionalPositiveInteger = (field, value) =>
   optionalNumber(field, value, { integer: true, min: 1 });
 
+// Trace point: requiredOneOf()
 export const requiredOneOf = (field, value, allowed) => {
   const errors = [];
 
@@ -173,6 +182,7 @@ export const requiredOneOf = (field, value, allowed) => {
   return { value: nextValue, errors };
 };
 
+// Trace point: emailAddress()
 export const emailAddress = (field, value) => {
   const { value: nextValue, errors } = requiredString(field, value, {
     min: 5,

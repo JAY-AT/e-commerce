@@ -80,6 +80,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.notifManager.load();
     this.orderManager.adminLoad();
@@ -91,16 +92,19 @@ export class AdminDashboard implements OnInit, OnDestroy {
     this.refreshHeroMetrics();
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  // Trace point: setSection()
   setSection(section: AdminSection): void {
     this.activeSection = section;
     this.refreshHeroMetrics();
   }
 
+  // Trace point: onContentScroll()
   onContentScroll(event: Event): void {
     const target = event.target as HTMLElement | null;
     if (!target) {
@@ -110,6 +114,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     this.showNavigation = target.scrollTop <= 8;
   }
 
+  // Trace point: activeSectionLabel()
   get activeSectionLabel(): string {
     switch (this.activeSection) {
       case 'analytics':
@@ -131,6 +136,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: activeSectionDescription()
   get activeSectionDescription(): string {
     switch (this.activeSection) {
       case 'analytics':
@@ -152,6 +158,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: loadProducts()
   loadProducts(): void {
     this.isLoading = true;
 
@@ -170,6 +177,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: reloadProducts()
   reloadProducts(): void {
     this.loadProducts();
   }
@@ -186,10 +194,12 @@ export class AdminDashboard implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: updateUserStatus()
   updateUserStatus(userId: string, status: 'active' | 'suspended'): void {
     this.errorMessage = `User ${userId} marked as ${status}.`;
   }
 
+  // Trace point: logout()
   logout(): void {
     this.notifManager.clearNotifications();
     this.orderManager.clearState();
@@ -198,6 +208,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
+  // Trace point: loadDashboardData()
   private loadDashboardData(): void {
     this.analyticsManager.analytics$
       .pipe(takeUntil(this.destroy$))
@@ -242,10 +253,12 @@ export class AdminDashboard implements OnInit, OnDestroy {
       });
   }
 
+  // Trace point: refreshHeroMetrics()
   private refreshHeroMetrics(): void {
     this.heroMetrics = this.buildHeroMetrics();
   }
 
+  // Trace point: buildHeroMetrics()
   private buildHeroMetrics(): AdminHeroMetric[] {
     switch (this.activeSection) {
       case 'analytics':
@@ -267,6 +280,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: analyticsMetrics()
   private analyticsMetrics(): AdminHeroMetric[] {
     if (!this.analyticsData) {
       return [];
@@ -296,6 +310,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: productMetrics()
   private productMetrics(): AdminHeroMetric[] {
     const lowStock = this.products.filter((product) => product.stock <= 5).length;
     const categories = new Set(this.products.map((product) => product.category_name).filter(Boolean)).size;
@@ -325,6 +340,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: orderMetrics()
   private orderMetrics(): AdminHeroMetric[] {
     const totalOrders = this.orderData.totalOrders;
     const totalSpent = this.orderData.totalSpent;
@@ -357,6 +373,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: userMetrics()
   private userMetrics(): AdminHeroMetric[] {
     const totalUsers = this.users.length;
     const admins = this.users.filter((user) => user.role === 'admin').length;
@@ -387,6 +404,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: settingsMetrics()
   private settingsMetrics(): AdminHeroMetric[] {
     return [
       {
@@ -412,6 +430,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: siteLinkMetrics()
   private siteLinkMetrics(): AdminHeroMetric[] {
     const groups = this.footerContent?.groups.length ?? 0;
     const links = this.footerContent?.groups.reduce((total, group) => total + group.links.length, 0) ?? 0;
@@ -441,6 +460,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
     ];
   }
 
+  // Trace point: supportMetrics()
   private supportMetrics(): AdminHeroMetric[] {
     const unread = this.supportThreads.reduce((total, thread) => total + thread.unread_count, 0);
     const open = this.supportThreads.filter((thread) => thread.status === 'open').length;

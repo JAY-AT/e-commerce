@@ -5,6 +5,7 @@ import {
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+// Trace point: validateCategoryId()
 export const validateCategoryId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -13,6 +14,7 @@ export const validateCategoryId = (params) => {
   };
 };
 
+// Trace point: validateCreateCategory()
 export const validateCreateCategory = (body) => {
   const errors = [];
 
@@ -35,6 +37,7 @@ export const validateCreateCategory = (body) => {
   };
 };
 
+// Trace point: validateUpdateCategory()
 export const validateUpdateCategory = (body) => {
   const errors = [];
   const value = {};

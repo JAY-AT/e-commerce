@@ -7,6 +7,7 @@ const PASSWORD_ITERATIONS = 120000;
 const PASSWORD_KEY_LENGTH = 64;
 const PASSWORD_DIGEST = "sha512";
 
+// Trace point: generateAccessToken()
 export const generateAccessToken = (payload) =>
   jwt.sign(
     { ...payload, type: "access" },
@@ -14,6 +15,7 @@ export const generateAccessToken = (payload) =>
     { expiresIn: ACCESS_TOKEN_EXPIRES_IN }
   );
 
+// Trace point: generateRefreshToken()
 export const generateRefreshToken = (payload) =>
   jwt.sign(
     { ...payload, type: "refresh" },
@@ -21,6 +23,7 @@ export const generateRefreshToken = (payload) =>
     { expiresIn: REFRESH_TOKEN_EXPIRES_IN }
   );
 
+// Trace point: generateToken()
 export const generateToken = (userId) => generateAccessToken({ id: userId });
 
 export const hashPassword = (password, salt = crypto.randomBytes(16).toString("hex")) => {
@@ -31,6 +34,7 @@ export const hashPassword = (password, salt = crypto.randomBytes(16).toString("h
   return `pbkdf2$${PASSWORD_ITERATIONS}$${salt}$${derivedKey}`;
 };
 
+// Trace point: verifyPassword()
 export const verifyPassword = (password, storedHash) => {
   if (typeof storedHash !== "string" || !storedHash.startsWith("pbkdf2$")) {
     return false;
@@ -50,10 +54,13 @@ export const verifyPassword = (password, storedHash) => {
   return crypto.timingSafeEqual(Buffer.from(derivedKey, "hex"), Buffer.from(key, "hex"));
 };
 
+// Trace point: hashRefreshToken()
 export const hashRefreshToken = (token) =>
   crypto.createHash("sha256").update(token).digest("hex");
 
+// Trace point: decodeToken()
 export const decodeToken = (token) => jwt.decode(token);
 
+// Trace point: verifyAccessOrRefreshToken()
 export const verifyAccessOrRefreshToken = (token) =>
   jwt.verify(token, process.env.JWT_SECRET);

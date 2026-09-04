@@ -11,6 +11,7 @@ import {
   replyToThread,
 } from "./support.service.js";
 
+// Trace point: requireAdmin()
 const requireAdmin = (req, res) => {
   if (req.user?.role !== "admin") {
     res.status(403).json({ success: false, message: "Forbidden" });

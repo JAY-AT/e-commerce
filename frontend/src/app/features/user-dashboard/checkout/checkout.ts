@@ -60,6 +60,7 @@ export class Checkout implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.CartManager.cartItems$
       .pipe(takeUntil(this.destroy$))
@@ -82,27 +83,33 @@ export class Checkout implements OnInit, OnDestroy {
     }
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  // Trace point: subtotal()
   get subtotal(): number {
     return this.CartManager.getTotalPrice();
   }
 
+  // Trace point: shippingFee()
   get shippingFee(): number {
     return this.subtotal > 0 ? 0 : 0;
   }
 
+  // Trace point: total()
   get total(): number {
     return this.subtotal + this.shippingFee;
   }
 
+  // Trace point: selectedPaymentMethod()
   get selectedPaymentMethod(): CheckoutPaymentMethod {
     return this.checkoutForm.value.paymentMethod || 'cod';
   }
 
+  // Trace point: submitLabel()
   get submitLabel(): string {
     if (this.isSubmitting) {
       return 'Placing order...';
@@ -113,10 +120,12 @@ export class Checkout implements OnInit, OnDestroy {
       : 'Place COD order';
   }
 
+  // Trace point: totalQuantity()
   get totalQuantity(): number {
     return this.cartItems.reduce((sum, item) => sum + item.quantity, 0);
   }
 
+  // Trace point: adjustQuantity()
   adjustQuantity(productId: string, delta: number): void {
     const item = this.cartItems.find(entry => entry.product.id === productId);
     if (!item) {
@@ -132,14 +141,17 @@ export class Checkout implements OnInit, OnDestroy {
     this.CartManager.updateQuantity(productId, nextQuantity);
   }
 
+  // Trace point: removeItem()
   removeItem(productId: string): void {
     this.CartManager.removeFromCart(productId);
   }
 
+  // Trace point: toggleShipping()
   toggleShipping(): void {
     this.isShippingOpen = !this.isShippingOpen;
   }
 
+  // Trace point: submitOrder()
   submitOrder(): void {
     if (this.checkoutForm.invalid || this.cartItems.length === 0) {
       this.checkoutForm.markAllAsTouched();
@@ -212,10 +224,12 @@ export class Checkout implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: backToDashboard()
   backToDashboard(): void {
     this.router.navigate(['/user-dashboard']);
   }
 
+  // Trace point: logout()
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

@@ -20,13 +20,16 @@ export class NotificationManager {
   readonly notifCount$ = this.notifCountSubject.asObservable();
 
 
+  // Trace point: constructor()
   constructor(private api: NotificationApiService, private auth: AuthManager) {}
 
+  // Trace point: setNotifications()
   private setNotifications(notifications: NotificationDTO[]): void {
     this.notificationsSubject.next(notifications);
     this.notifCountSubject.next(notifications.filter(n => !n.is_read).length);
   }
 
+  // Trace point: load()
   load(): void {
     const role = this.auth.getRole();
     if (role === 'admin') {
@@ -37,6 +40,7 @@ export class NotificationManager {
     console.log('NotificationManager loaded for role:', role);
   }
 
+  // Trace point: refresh()
   refresh(notifications$: Observable<NotificationDTO[]>): void {
     notifications$.subscribe({
       next: (notifs) => {
@@ -47,10 +51,12 @@ export class NotificationManager {
     });
   }
 
+  // Trace point: getNotifications()
   getNotifications(): Observable<NotificationDTO[]> {
     return this.notifications$;
   }
 
+  // Trace point: createNotification()
   createNotification(data: CreateNotificationRequestDTO): void {
     this.api.createNotification(data).pipe(
       tap(newNotif => {
@@ -60,6 +66,7 @@ export class NotificationManager {
     )
   }
 
+  // Trace point: markAsRead()
   markAsRead(id: number | string): void {
     this.api.markAsRead(id).subscribe({
       next: (updated) => {
@@ -72,6 +79,7 @@ export class NotificationManager {
     });
   }
 
+  // Trace point: markAllAsRead()
   markAllAsRead(): void {
     this.api.markAllAsRead().subscribe({
       next: () => {
@@ -85,6 +93,7 @@ export class NotificationManager {
     });
   }
 
+  // Trace point: deleteNotification()
   deleteNotification(id: number | string): void {
     this.api.deleteNotification(id).subscribe({
       next: () => {
@@ -95,6 +104,7 @@ export class NotificationManager {
     });
   }
 
+  // Trace point: deleteAllNotifications()
   deleteAllNotifications(): void {
     this.api.deleteAllNotifications().subscribe({
       next: () => {
@@ -104,12 +114,14 @@ export class NotificationManager {
     });
   }
 
+  // Trace point: getUnreadCount()
   getUnreadCount(): Observable<number> {
     const count = this.notificationsSubject.value.filter(n => !n.is_read).length;
     console.log('Unread notifications count:', count);
     return this.notifCount$;
   }
 
+  // Trace point: clearNotifications()
   clearNotifications(): void {
     this.isLoaded = false;
     this.notificationsSubject.next([]);

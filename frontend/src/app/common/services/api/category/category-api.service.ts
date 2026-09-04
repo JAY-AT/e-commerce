@@ -23,6 +23,7 @@ export interface UpdateCategoryRequest extends Partial<CreateCategoryRequest> {}
 export class CategoryApiService {
   private readonly baseUrl = `${environment.apiBaseUrl}/categories`;
 
+  // Trace point: constructor()
   constructor(private http: HttpClient) {}
 
   /**

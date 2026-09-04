@@ -13,6 +13,7 @@ export default class UserModel extends BaseModel {
     "created_at"
   ];
 
+  // Trace point: findAllWithProfile()
   static async findAllWithProfile(db = null) {
     const conn = db ?? this.pool;
 
@@ -40,6 +41,7 @@ export default class UserModel extends BaseModel {
     return rows;
   }
 
+  // Trace point: findByIdWithProfile()
   static async findByIdWithProfile(id, db = null) {
     const conn = db ?? this.pool;
 
@@ -69,6 +71,7 @@ export default class UserModel extends BaseModel {
     return rows[0];
   }
 
+  // Trace point: updateById()
   static async updateById(id, data, db = null) {
     const conn = db ?? this.pool;
     const keys = Object.keys(data);

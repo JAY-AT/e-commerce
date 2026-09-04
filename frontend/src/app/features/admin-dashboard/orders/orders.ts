@@ -31,6 +31,7 @@ export class AdminOrdersComponent implements OnInit {
     private toast: ToastManager,
     private notif: NotificationManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.manager.adminLoad(true);
     const base$ = this.manager.orderFull$;
@@ -74,6 +75,7 @@ export class AdminOrdersComponent implements OnInit {
     );
   }
 
+  // Trace point: updateOrder()
   updateOrder(userId: string, id: string,status: OrderStatusDTO): void {
       this.manager.updateOrderStatus(id, status).pipe(
         finalize(() => {
@@ -89,18 +91,22 @@ export class AdminOrdersComponent implements OnInit {
       )
   }
 
+  // Trace point: onSearch()
   onSearch(value: string) {
     this.search$.next(value);
   }
 
+  // Trace point: onFilter()
   onFilter(value: StatusFilter) {
     this.filter$.next(value);
   }
 
+  // Trace point: onSort()
   onSort(value: SortType) {
     this.sort$.next(value);
   }
 
+  // Trace point: paymentMethodLabel()
   paymentMethodLabel(method?: string | null): string {
     switch (method) {
       case 'cod':
@@ -118,6 +124,7 @@ export class AdminOrdersComponent implements OnInit {
     }
   }
 
+  // Trace point: paymentStatusLabel()
   paymentStatusLabel(order: Order): string {
     if (order.paymentMethod === 'cod' && order.paymentStatus !== 'paid') {
       return 'Unpaid';

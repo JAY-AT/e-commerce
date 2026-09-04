@@ -22,14 +22,17 @@ export interface ApiResponse<T> {
 export class PaymentApiService {
   private readonly baseUrl = `${environment.apiBaseUrl}/payment`;
 
+  // Trace point: constructor()
   constructor(private http: HttpClient) {}
 
+  // Trace point: checkoutPayment()
   checkoutPayment(data: CheckoutPaymentRequestDTO): Observable<PaymentCheckoutResponseDTO> {
     return this.http.post<ApiResponse<PaymentCheckoutResponseDTO>>(`${this.baseUrl}/checkout`, data).pipe(
       map(response => response.data)
     );
   }
 
+  // Trace point: getPaymentById()
   getPaymentById(id: number | string): Observable<PaymentCheckoutResponseDTO> {
     return this.http.get<ApiResponse<PaymentCheckoutResponseDTO>>(`${this.baseUrl}/${id}`).pipe(
       map(response => response.data)

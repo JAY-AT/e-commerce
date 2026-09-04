@@ -41,6 +41,7 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     private supportUi: SupportUiManager,
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.notifCount$ = this.notifManager.getUnreadCount();
 
@@ -55,37 +56,45 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Trace point: ngAfterViewInit()
   ngAfterViewInit(): void {
     if (this.context === 'landing') {
       this.setupLandingSectionObserver();
     }
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.sectionObserver?.disconnect();
   }
 
+  // Trace point: toggleMobileMenu()
   toggleMobileMenu(): void {
     this.mobileOpen = !this.mobileOpen;
   }
 
+  // Trace point: closeMobileMenu()
   closeMobileMenu(): void {
     this.mobileOpen = false;
   }
 
+  // Trace point: toggleNotifications()
   toggleNotifications(): void {
     this.notifOpen = !this.notifOpen;
   }
 
+  // Trace point: closeNotifications()
   closeNotifications(): void {
     this.notifOpen = false;
   }
 
+  // Trace point: isLinkActive()
   isLinkActive(link: NavigationLink): boolean {
     return this.context === 'landing' && this.activeHref === link.href;
   }
 
+  // Trace point: onLinkClick()
   onLinkClick(link: NavigationLink): void {
     if (this.context === 'landing') {
       this.activeHref = link.href;
@@ -94,6 +103,7 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.closeMobileMenu();
   }
 
+  // Trace point: links()
   get links(): NavigationLink[] {
     switch (this.context) {
       case 'landing':
@@ -133,6 +143,7 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Trace point: brandNote()
   get brandNote(): string {
     switch (this.context) {
       case 'landing':
@@ -144,22 +155,27 @@ export class NavigationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Trace point: actionLabel()
   get actionLabel(): string | null {
     return this.context === 'landing' ? 'Login' : null;
   }
 
+  // Trace point: showLogout()
   get showLogout(): boolean {
     return this.context !== 'landing';
   }
 
+  // Trace point: showSupportToggle()
   get showSupportToggle(): boolean {
     return this.context !== 'admin';
   }
 
+  // Trace point: toggleSupport()
   toggleSupport(): void {
     this.supportUi.toggle();
   }
 
+  // Trace point: setupLandingSectionObserver()
   private setupLandingSectionObserver(): void {
     const sections = this.links
       .map((link) => document.getElementById(link.href.replace('#', '')))

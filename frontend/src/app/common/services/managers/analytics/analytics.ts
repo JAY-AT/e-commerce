@@ -55,6 +55,7 @@ export class AnalyticsManager {
     private userManager: UserManager
   ) { }
 
+  // Trace point: init()
   public init(): void {
     if (this.analyticsSubscription) {
       return;
@@ -179,6 +180,7 @@ export class AnalyticsManager {
     };
   }
 
+  // Trace point: getDefault()
   private getDefault(): AnalyticsData {
     return {
       totalSales: 0,
@@ -207,6 +209,7 @@ export class AnalyticsManager {
     };
   }
 
+  // Trace point: formatDate()
   formatDate(isoDate: string): string {
     const d = new Date(isoDate);
     const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -215,6 +218,7 @@ export class AnalyticsManager {
     return `${mm}-${dd}-${yyyy}`;
 }
 
+   // Trace point: generateWeeklySales()
    generateWeeklySales(): WeeklySales[] {
     const sales: WeeklySales[] = [];
     const today = new Date();
@@ -234,6 +238,7 @@ export class AnalyticsManager {
     return sales;
     }
 
+  // Trace point: filterForWeeklySales()
   filterForWeeklySales(order: Order, weeklySales: WeeklySales[]): void {
     const key = new Date(order.createdAt).toISOString().split('T')[0];
     if (!['completed', 'shipped'].includes(order.status)) {

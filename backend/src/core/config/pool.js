@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 
 let pool;
 
+// Trace point: initPool()
 export function initPool(config) {
   pool = mysql.createPool({
     ...config,
@@ -13,6 +14,7 @@ export function initPool(config) {
   return pool;
 }
 
+// Trace point: getPool()
 export function getPool() {
   if (!pool) throw new Error("Pool not initialized");
   return pool;

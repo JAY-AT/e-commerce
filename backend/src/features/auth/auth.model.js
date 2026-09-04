@@ -12,6 +12,7 @@ export default class RefreshTokenModel extends BaseModel {
     "created_at"
   ];
 
+  // Trace point: findActiveByHash()
   static async findActiveByHash(tokenHash, db = null) {
     const conn = db ?? this.pool;
 
@@ -30,6 +31,7 @@ export default class RefreshTokenModel extends BaseModel {
     return rows[0];
   }
 
+  // Trace point: revokeByHash()
   static async revokeByHash(tokenHash, conn = null) {
     const db = conn ?? this.pool;
 
@@ -46,6 +48,7 @@ export default class RefreshTokenModel extends BaseModel {
     return result.affectedRows > 0;
   }
 
+  // Trace point: revokeByUserId()
   static async revokeByUserId(userId, conn = null) {
     const db = conn ?? this.pool;
 

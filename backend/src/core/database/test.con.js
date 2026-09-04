@@ -1,5 +1,6 @@
 import { getPool } from '../../config/pool.js';
 
+// Trace point: testConnection()
 export const testConnection = async () => {
   const pool = getPool();
 

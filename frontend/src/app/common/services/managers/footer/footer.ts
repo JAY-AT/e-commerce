@@ -87,16 +87,19 @@ export class FooterManager {
   private readonly footerSubject = new BehaviorSubject<FooterContent>(this.loadInitial());
   readonly footer$ = this.footerSubject.asObservable();
 
+  // Trace point: getFooter()
   getFooter(): Observable<FooterContent> {
     return this.footer$;
   }
 
+  // Trace point: updateFooter()
   updateFooter(content: FooterContent): void {
     const next = this.clone(content);
     this.footerSubject.next(next);
     localStorage.setItem(this.storageKey, JSON.stringify(next));
   }
 
+  // Trace point: updateBrand()
   updateBrand(data: Pick<FooterContent, 'brandName' | 'description' | 'copyright'>): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -104,6 +107,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: updateGroupTitle()
   updateGroupTitle(groupId: string, title: string): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -113,6 +117,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: updateLink()
   updateLink(groupId: string, linkId: string, patch: Partial<FooterLink>): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -129,6 +134,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: addLink()
   addLink(groupId: string, link?: Partial<FooterLink>): void {
     const nextLink: FooterLink = {
       id: link?.id ?? `link-${Date.now()}`,
@@ -146,6 +152,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: removeLink()
   removeLink(groupId: string, linkId: string): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -157,6 +164,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: updateContact()
   updateContact(contact: Partial<FooterContact>): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -167,6 +175,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: updateSocialLink()
   updateSocialLink(linkId: string, patch: Partial<FooterSocialLink>): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -176,6 +185,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: addSocialLink()
   addSocialLink(link?: Partial<FooterSocialLink>): void {
     const nextLink: FooterSocialLink = {
       id: link?.id ?? `social-${Date.now()}`,
@@ -189,6 +199,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: removeSocialLink()
   removeSocialLink(linkId: string): void {
     this.updateFooter({
       ...this.footerSubject.value,
@@ -196,6 +207,7 @@ export class FooterManager {
     });
   }
 
+  // Trace point: loadInitial()
   private loadInitial(): FooterContent {
     const stored = localStorage.getItem(this.storageKey);
 
@@ -212,6 +224,7 @@ export class FooterManager {
     }
   }
 
+  // Trace point: clone()
   private clone(content: FooterContent): FooterContent {
     return JSON.parse(JSON.stringify(content)) as FooterContent;
   }

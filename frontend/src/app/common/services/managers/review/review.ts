@@ -27,6 +27,7 @@ export class ReviewManager {
   
   REVIEW_COUNT = 3;
 
+  // Trace point: constructor()
   constructor(private api: ReviewApiService) {}
 
   // =========================
@@ -100,6 +101,7 @@ export class ReviewManager {
     );
   }
 
+  // Trace point: getSelectedReview()
   getSelectedReview(): Observable<OrderReviewDTO | null> {
     return this.selectedReview$;
   }

@@ -14,6 +14,7 @@ export default class AddressRepository extends BaseModel {
     "updated_at"
   ];
 
+  // Trace point: findByUserId()
   static async findByUserId(userId, db = null) {
     const conn = db ?? this.pool;
 
@@ -25,6 +26,7 @@ export default class AddressRepository extends BaseModel {
     return rows[0];
   }
 
+  // Trace point: upsertByUserId()
   static async upsertByUserId(userId, data, db = null) {
     const conn = db ?? this.pool;
     const existing = await this.findByUserId(userId, conn);

@@ -13,6 +13,7 @@ export const orderListDTO = (rows) => {
   };
 };
 
+// Trace point: orderReviewDTO()
 export const orderReviewDTO = (row) => {
   if (!row || !row.review_id) return null;
 

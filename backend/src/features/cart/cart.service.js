@@ -6,6 +6,7 @@ import CartItemRepository from "./cart_item/cart_item.repository.js";
 import UserModel from "../user/user.repository.js";
 
 export const CartService = {
+  // Trace point: ensureUserExists()
   async ensureUserExists(userId, conn = null) {
     const user = await UserModel.findById(userId, conn);
 
@@ -16,6 +17,7 @@ export const CartService = {
     return user;
   },
 
+  // Trace point: getOrCreate()
   async getOrCreate(userId, conn = null) {
     await this.ensureUserExists(userId, conn);
 
@@ -29,6 +31,7 @@ export const CartService = {
     return cart;
   },
 
+  // Trace point: getCart()
   async getCart(userId, conn = null) {
     await this.ensureUserExists(userId, conn);
 
@@ -42,6 +45,7 @@ export const CartService = {
     return cartFullDTO(result);
   },
 
+  // Trace point: getCheckoutCart()
   async getCheckoutCart(userId, conn) {
     await this.ensureUserExists(userId, conn);
 
@@ -49,6 +53,7 @@ export const CartService = {
     return cartFullDTO(result);
   },
 
+  // Trace point: addProduct()
   async addProduct(userId, productId, quantity) {
 
     const cart = await this.getOrCreate(userId);
@@ -80,6 +85,7 @@ export const CartService = {
     return this.getCart(userId);
   },
 
+  // Trace point: updateProductQuantity()
   async updateProductQuantity(userId, productId, quantity) {
 
     const cart = await this.getOrCreate(userId);
@@ -100,6 +106,7 @@ export const CartService = {
     return this.getCart(userId);
   },
 
+  // Trace point: deleteProduct()
   async deleteProduct(userId, productId) {
 
       const cart = await this.getOrCreate(userId);
@@ -109,6 +116,7 @@ export const CartService = {
       return this.getCart(userId);
   },
 
+  // Trace point: deleteCart()
   async deleteCart(userId, conn = null) {
     await this.ensureUserExists(userId, conn);
 

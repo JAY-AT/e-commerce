@@ -3,6 +3,7 @@ import BaseModel from "../../../common/model/orm/base.js";
 export default class OrderItemRepository extends BaseModel {
     static table = "order_items"
 
+    // Trace point: createBulk()
     static async createBulk(orderId, items, conn=null) {
         if (!items.length) return;
 
@@ -22,6 +23,7 @@ export default class OrderItemRepository extends BaseModel {
         return rows;
     }
 
+    // Trace point: findByOrderId()
     static async findByOrderId(orderId) {
         const [rows] = await this.pool.query(
             `SELECT * FROM ${this.table} WHERE order_id = ?`,
@@ -31,6 +33,7 @@ export default class OrderItemRepository extends BaseModel {
         return rows;
     }
 
+    // Trace point: deleteByOrderId()
     static async deleteByOrderId(orderId) {
         const [result] = await this.pool.query(
             `DELETE FROM ${this.table} WHERE order_id = ?`,

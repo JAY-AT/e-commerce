@@ -5,10 +5,12 @@ export default class BaseModel {
   static table = "";
   static publicFields = [];
 
+  // Trace point: pool()
   static get pool() {
     return getPool();
   }
 
+  // Trace point: findById()
   static async findById(id, db = null) {
     const conn = db ?? this.pool;
     const [rows] = await conn.query(
@@ -18,11 +20,13 @@ export default class BaseModel {
     return rows[0];
   }
 
+  // Trace point: findByIdSafe()
   static async findByIdSafe(id) {
     const data = await this.findById(id);
     return getSafe(data, this.publicFields);
   }
 
+  // Trace point: findAll()
   static async findAll() {
     const [rows] = await this.pool.query(
       `SELECT * FROM ${this.table}`
@@ -30,11 +34,13 @@ export default class BaseModel {
     return rows;
   }
 
+  // Trace point: findAllSafe()
   static async findAllSafe() {
     const data = await this.findAll();
     return getSafe(data, this.publicFields);
   }
 
+  // Trace point: create()
   static async create(data, conn = null) {
     const db = conn ?? this.pool;
 
@@ -51,6 +57,7 @@ export default class BaseModel {
 
   }
 
+  // Trace point: bulkCreate()
   static async bulkCreate(data, conn = null) {
     const db = conn ?? this.pool;
 
@@ -74,6 +81,7 @@ export default class BaseModel {
   }
   }
 
+  // Trace point: update()
   static async update(id, data) {
     const keys = Object.keys(data);
 
@@ -92,6 +100,7 @@ export default class BaseModel {
     return this.findByIdSafe(id);
   }
 
+  // Trace point: delete()
   static async delete(id, db = null) {
     const conn = db ?? this.pool;
     const [result] = await conn.query(

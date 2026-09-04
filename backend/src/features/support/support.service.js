@@ -3,6 +3,7 @@ import { withTransaction } from "../../common/utilities/handler.js";
 import UserModel from "../user/user.repository.js";
 import SupportThreadModel from "./support.repository.js";
 
+// Trace point: buildMessage()
 const buildMessage = (sender, body, authorName) => ({
   id: crypto.randomUUID(),
   sender,
@@ -11,6 +12,7 @@ const buildMessage = (sender, body, authorName) => ({
   created_at: new Date().toISOString(),
 });
 
+// Trace point: getSystemGreeting()
 const getSystemGreeting = () =>
   buildMessage(
     "system",
@@ -18,6 +20,7 @@ const getSystemGreeting = () =>
     "Support"
   );
 
+// Trace point: loadCustomerIdentity()
 const loadCustomerIdentity = async (userId, conn = null) => {
   const user = await UserModel.findByIdWithProfile(userId, conn);
 
@@ -32,12 +35,14 @@ const loadCustomerIdentity = async (userId, conn = null) => {
   };
 };
 
+// Trace point: loadVisitorIdentity()
 const loadVisitorIdentity = (visitorKey) => ({
   visitor_key: visitorKey,
   user_name: "Guest",
   user_email: null,
 });
 
+// Trace point: upsertCustomerThread()
 const upsertCustomerThread = async (identity, message, conn = null) => {
   const existing = identity.user_id
     ? await SupportThreadModel.findByUserId(identity.user_id, conn)
@@ -77,6 +82,7 @@ const upsertCustomerThread = async (identity, message, conn = null) => {
   );
 };
 
+// Trace point: appendAdminReply()
 const appendAdminReply = async (threadId, message, conn = null) => {
   const thread = await SupportThreadModel.findThreadById(threadId, conn);
 
@@ -100,16 +106,19 @@ const appendAdminReply = async (threadId, message, conn = null) => {
   );
 };
 
+// Trace point: getCustomerThread()
 export const getCustomerThread = async (userId) => {
   const thread = await SupportThreadModel.findByUserId(userId);
   return thread;
 };
 
+// Trace point: getVisitorThread()
 export const getVisitorThread = async (visitorKey) => {
   const thread = await SupportThreadModel.findByVisitorKey(visitorKey);
   return thread;
 };
 
+// Trace point: createCustomerMessage()
 export const createCustomerMessage = async (userId, message) => {
   return withTransaction(UserModel.pool, async (conn) => {
     const identity = await loadCustomerIdentity(userId, conn);
@@ -117,6 +126,7 @@ export const createCustomerMessage = async (userId, message) => {
   });
 };
 
+// Trace point: createVisitorMessage()
 export const createVisitorMessage = async (visitorKey, message) => {
   return withTransaction(UserModel.pool, async (conn) => {
     const identity = loadVisitorIdentity(visitorKey);
@@ -124,10 +134,12 @@ export const createVisitorMessage = async (visitorKey, message) => {
   });
 };
 
+// Trace point: getAllThreads()
 export const getAllThreads = async () => {
   return SupportThreadModel.findAllThreads();
 };
 
+// Trace point: getThreadById()
 export const getThreadById = async (id) => {
   const thread = await SupportThreadModel.findThreadById(id);
 
@@ -138,6 +150,7 @@ export const getThreadById = async (id) => {
   return thread;
 };
 
+// Trace point: markThreadAsRead()
 export const markThreadAsRead = async (id) => {
   const thread = await getThreadById(id);
 
@@ -147,6 +160,7 @@ export const markThreadAsRead = async (id) => {
   });
 };
 
+// Trace point: closeThread()
 export const closeThread = async (id) => {
   const thread = await getThreadById(id);
 
@@ -156,4 +170,5 @@ export const closeThread = async (id) => {
   });
 };
 
+// Trace point: replyToThread()
 export const replyToThread = async (id, message) => appendAdminReply(id, message);

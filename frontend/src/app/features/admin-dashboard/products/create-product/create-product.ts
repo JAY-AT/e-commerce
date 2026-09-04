@@ -40,10 +40,12 @@ export class AdminProductCreateComponent implements OnInit {
     });
   }
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.categories$ = this.categoryManager.getCategories();
   }
 
+  // Trace point: submit()
   submit(): void {
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched();
@@ -97,14 +99,17 @@ export class AdminProductCreateComponent implements OnInit {
     });
   }
 
+  // Trace point: cancel()
   cancel(): void {
     this.close.emit();
   }
 
+  // Trace point: trackByCategory()
   trackByCategory(_: number, category: CategoryItem): number {
     return category.id;
   }
 
+  // Trace point: normalizeImagePath()
   private normalizeImagePath(value: string): string | null {
     const trimmed = value.trim();
 

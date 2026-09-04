@@ -1,5 +1,6 @@
 import AppError from "../utilities/error.js";
 
+// Trace point: validateRequest()
 export const validateRequest = (schema, source = "body") => (req, res, next) => {
   const result = schema(req[source] ?? {});
 

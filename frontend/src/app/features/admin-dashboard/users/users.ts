@@ -19,8 +19,10 @@ export class AdminUsersComponent implements OnInit {
 
   @Output() statusChange = new EventEmitter<{ id: string; status: UserStatus }>();
 
+  // Trace point: constructor()
   constructor(private manager: UserManager) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.manager.getUsers().subscribe((users) => {
       this.allUsers = users;

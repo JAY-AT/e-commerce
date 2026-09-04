@@ -22,10 +22,12 @@ import { Observable } from 'rxjs';
 export class ToastContainer {
   toast$: Observable<ToastData | null>;
 
+  // Trace point: constructor()
   constructor(private toastService: ToastManager) {
     this.toast$ = this.toastService.toast$;
   }
 
+  // Trace point: handleClose()
   handleClose() {
     this.toastService.clear();
   }

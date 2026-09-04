@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 
+// Trace point: initializeDb()
 export async function initializeDb(config) {
   const connection = await mysql.createConnection({
     host: config.host,

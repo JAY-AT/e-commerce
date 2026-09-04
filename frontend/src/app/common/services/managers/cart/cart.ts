@@ -24,6 +24,7 @@ export class CartManager {
     map(items => items.reduce((total, item) => total + (item.product.price * item.quantity), 0))
   );
 
+  // Trace point: constructor()
   constructor(private api: CartApiService) {
     this.loadCachedCart();
     this.refreshCart();
@@ -202,6 +203,7 @@ export class CartManager {
     return this.cartItemsSubject.value;
   }
 
+  // Trace point: getTotalPrice()
   getTotalPrice(): number {
     return this.cartItemsSubject.value.reduce(
       (total, item) => total + item.product.price * item.quantity,
@@ -219,6 +221,7 @@ export class CartManager {
     });
   }
 
+  // Trace point: clearLocalCart()
   private clearLocalCart(): void {
     this.cartItemsSubject.next([]);
     localStorage.removeItem('cart');
@@ -237,6 +240,7 @@ export class CartManager {
     });
   }
 
+  // Trace point: saveToStorage()
   private saveToStorage(): void {
     localStorage.setItem(
       'cart',
@@ -244,6 +248,7 @@ export class CartManager {
     );
   }
 
+  // Trace point: hasAccessToken()
   private hasAccessToken(): boolean {
     return !!localStorage.getItem('accessToken');
   }

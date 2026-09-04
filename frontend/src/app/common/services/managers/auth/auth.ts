@@ -33,10 +33,12 @@ export class AuthManager {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable(); 
 
+  // Trace point: constructor()
   constructor(private authApi: AuthApiService) {
     this.restoreSession();
   }
 
+  // Trace point: login()
   login(email: string, password: string, type: 'customer' | 'admin'): Observable<User> {
     const request: LoginRequest = { email, password };
 
@@ -46,6 +48,7 @@ export class AuthManager {
     );
   }
 
+  // Trace point: register()
   register(data: RegisterRequest): Observable<User> {
     return this.authApi.register(data).pipe(
       tap(session => this.persistSession(session)),
@@ -53,6 +56,7 @@ export class AuthManager {
     );
   }
 
+  // Trace point: refresh()
   refresh(): Observable<User> {
     const refreshToken = this.getRefreshToken();
 
@@ -68,6 +72,7 @@ export class AuthManager {
     );
   }
 
+  // Trace point: logout()
   logout(): void {
     const user = this.currentUserSubject.value;
     this.clearSession();
@@ -79,6 +84,7 @@ export class AuthManager {
     });
   }
 
+  // Trace point: clearSession()
   clearSession(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
@@ -89,26 +95,32 @@ export class AuthManager {
     this.dispatchAuthEvent('logout');
   }
 
+  // Trace point: getAccessToken()
   getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN_KEY) ?? localStorage.getItem(LEGACY_ACCESS_TOKEN_KEY);
   }
 
+  // Trace point: getRefreshToken()
   getRefreshToken(): string | null {
     return localStorage.getItem(REFRESH_TOKEN_KEY);
   }
 
+  // Trace point: isAuthenticated()
   isAuthenticated(): boolean {
     return this.currentUserSubject.value !== null && this.getAccessToken() !== null;
   }
 
+  // Trace point: getCurrentUser()
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }
 
+  // Trace point: getUserType()
   getUserType(): 'customer' | 'admin' | null {
     return this.currentUserSubject.value?.type || null;
   }
 
+  // Trace point: updateCurrentUser()
   updateCurrentUser(user: Partial<User>): void {
     const currentUser = this.currentUserSubject.value;
     if (!currentUser) return;
@@ -118,6 +130,7 @@ export class AuthManager {
     this.currentUserSubject.next(updatedUser);
   }
 
+  // Trace point: restoreSession()
   private restoreSession(): void {
     const storedUser = localStorage.getItem(CURRENT_USER_KEY);
     if (storedUser) {
@@ -129,6 +142,7 @@ export class AuthManager {
     }
   }
 
+  // Trace point: persistSession()
   private persistSession(session: AuthSession): void {
     const user = this.mapSessionUser(session, session.user.role === 'admin' ? 'admin' : 'customer');
 
@@ -140,6 +154,7 @@ export class AuthManager {
     this.dispatchAuthEvent('session-changed');
   }
 
+  // Trace point: mapSessionUser()
   private mapSessionUser(session: AuthSession, fallbackType: 'customer' | 'admin'): User {
     const mappedType = session.user.role === 'admin' ? 'admin' : fallbackType;
 
@@ -156,6 +171,7 @@ export class AuthManager {
     };
   }
 
+  // Trace point: dispatchAuthEvent()
   private dispatchAuthEvent(name: 'logout' | 'session-changed'): void {
     if (typeof window === 'undefined') {
       return;
@@ -164,6 +180,7 @@ export class AuthManager {
     window.dispatchEvent(new CustomEvent(`auth:${name}`));
   }
 
+  // Trace point: getRole()
   public getRole(): 'customer' | 'admin' | null {
     console.log('currentUser', this.currentUserSubject.value);
     console.log('user',localStorage.getItem(CURRENT_USER_KEY));

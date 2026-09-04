@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import AppError from "../utilities/error.js";
 
+// Trace point: authMiddleware()
 export const authMiddleware = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;

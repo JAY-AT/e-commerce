@@ -8,6 +8,7 @@ import {
 
 const userRoles = ["customer", "admin"];
 
+// Trace point: validateUserId()
 export const validateUserId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -16,6 +17,7 @@ export const validateUserId = (params) => {
   };
 };
 
+// Trace point: validateUpdateUser()
 export const validateUpdateUser = (body) => {
   const errors = [];
   const value = {};

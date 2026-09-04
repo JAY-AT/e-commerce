@@ -19,18 +19,22 @@ export class CheckoutSummaryComponent {
   @Output() quantityChange = new EventEmitter<{ productId: string; delta: number }>();
   @Output() removeItem = new EventEmitter<string>();
 
+  // Trace point: lineTotal()
   lineTotal(item: CartItem): number {
     return Number(item.product.price ?? 0) * Number(item.quantity ?? 0);
   }
 
+  // Trace point: formatPrice()
   formatPrice(value: unknown): string {
     return Number(value ?? 0).toFixed(2);
   }
 
+  // Trace point: adjustQuantity()
   adjustQuantity(productId: string, delta: number): void {
     this.quantityChange.emit({ productId, delta });
   }
 
+  // Trace point: onRemove()
   onRemove(productId: string): void {
     this.removeItem.emit(productId);
   }

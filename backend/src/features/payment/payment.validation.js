@@ -6,6 +6,7 @@ import {
 
 const paymentMethods = ["cod", "online", "cash", "card", "gcash"];
 
+// Trace point: validatePaymentId()
 export const validatePaymentId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -14,6 +15,7 @@ export const validatePaymentId = (params) => {
   };
 };
 
+// Trace point: validateCheckoutPayment()
 export const validateCheckoutPayment = (body) => {
   const errors = [];
 

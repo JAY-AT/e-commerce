@@ -28,6 +28,7 @@ export class ProductManager {
     private api: ProductApiService
   ) {}
 
+  // Trace point: load()
   public load(): void {
     if (this.isLoaded) return;
 
@@ -39,6 +40,7 @@ export class ProductManager {
     ).subscribe();
   }
 
+  // Trace point: getProducts()
   getProducts(): Observable<ProductListItem[]> {
     this.load();
     
@@ -46,6 +48,7 @@ export class ProductManager {
     return this.product$;
   }
 
+  // Trace point: selectProduct()
   selectProduct(id: number): Observable<ProductDetailDTO> {
     console.log('Selecting product with ID:', id);
     return this.api.getProduct(id).pipe(
@@ -53,6 +56,7 @@ export class ProductManager {
     );
   }
 
+  // Trace point: createProduct()
   createProduct(productData: CreateProductRequestDTO): Observable<ProductDetailDTO> {
     return this.api.createProduct(productData).pipe(
       tap((createdProduct) => {
@@ -66,6 +70,7 @@ export class ProductManager {
     );
   }
 
+  // Trace point: getSelectedProducts()
   getSelectedProducts(): Observable<ProductDetailDTO | null> {
     return this.selectedProduct$;
   }
@@ -97,12 +102,14 @@ export class ProductManager {
     );
   }
 
+  // Trace point: getProductById()
   getProductById(id: string): Observable<ProductListItem | undefined> {
     return this.product$.pipe(
       map(products => products.find(p => p.id == id))
     );
   }
 
+  // Trace point: searchProducts()
   searchProducts(query: string): Observable<ProductListItem[]> {
     const q = query.toLowerCase();
 
@@ -115,6 +122,7 @@ export class ProductManager {
     );
   }
 
+  // Trace point: filterByCategory()
   filterByCategory(category: string): Observable<ProductListItem[]> {
     if (category === 'all') {
       return this.getProducts();
@@ -127,14 +135,17 @@ export class ProductManager {
     );
   } 
 
+  // Trace point: getCategories()
   getCategories(): string[] {
     return ['all', 'coffee', 'soda', 'food', 'dessert'];
   }
 
+  // Trace point: getFeaturedProducts()
   getFeaturedProducts(): Observable<ProductListItem[]> {
     return this.getFeatured();
   }
 
+  // Trace point: getFeatured()
   getFeatured(): Observable<ProductListItem[]> {
     this.load();
 
@@ -143,6 +154,7 @@ export class ProductManager {
     );
   }
 
+  // Trace point: pickRandom()
   private pickRandom(products: ProductListItem[], count: number): ProductListItem[] {
     const pool = [...products];
 
@@ -154,9 +166,11 @@ export class ProductManager {
     return pool.slice(0, Math.min(count, pool.length));
   }
 
+  // Trace point: deleteProduct()
   deleteProduct(id: number): Observable<void> {
     return this.api.deleteProduct(id);}
 
+  // Trace point: deselectProduct()
   deselectProduct(): void {
     this.selectedProductSubject.next(null);
   }

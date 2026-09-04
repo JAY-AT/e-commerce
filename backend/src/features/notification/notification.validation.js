@@ -6,6 +6,7 @@ import {
 
 const notificationTypes = ["order", "payment", "system"];
 
+// Trace point: validateNotificationId()
 export const validateNotificationId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -14,6 +15,7 @@ export const validateNotificationId = (params) => {
   };
 };
 
+// Trace point: validateUserIdParam()
 export const validateUserIdParam = (params) => {
   const { value, errors } = requiredPositiveInteger("userId", params.userId);
   return {
@@ -22,6 +24,7 @@ export const validateUserIdParam = (params) => {
   };
 };
 
+// Trace point: validateCreateNotification()
 export const validateCreateNotification = (body) => {
   const errors = [];
   const value = {};

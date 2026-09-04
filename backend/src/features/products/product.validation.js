@@ -9,6 +9,7 @@ import {
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+// Trace point: validateProductId()
 export const validateProductId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -17,6 +18,7 @@ export const validateProductId = (params) => {
   };
 };
 
+// Trace point: validateCreateProduct()
 export const validateCreateProduct = (body) => {
   const errors = [];
 
@@ -47,6 +49,7 @@ export const validateCreateProduct = (body) => {
   };
 };
 
+// Trace point: validateUpdateProduct()
 export const validateUpdateProduct = (body) => {
   const errors = [];
   const value = {};

@@ -3,6 +3,7 @@ import path from "path";
 
 const SEEDS_DIR = path.join(process.cwd(), "src/core/database/seeds");
 
+// Trace point: runSeeds()
 async function runSeeds(pool) {
   const files = fs
     .readdirSync(SEEDS_DIR)

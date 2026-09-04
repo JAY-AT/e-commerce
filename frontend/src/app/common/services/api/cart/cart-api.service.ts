@@ -28,26 +28,31 @@ export interface ApiResponse<T> {
 export class CartApiService {
   private readonly baseUrl = `${environment.apiBaseUrl}/cart`;
 
+  // Trace point: constructor()
   constructor(private http: HttpClient) {}
 
+  // Trace point: getCart()
   getCart(): Observable<CartDetailDTO> {
     return this.http.get<ApiResponse<CartDetailDTO>>(this.baseUrl).pipe(
       map(response => response.data)
     );
   }
 
+  // Trace point: addItem()
   addItem(data: AddCartItemRequestDTO): Observable<CartDetailDTO> {
     return this.http.post<ApiResponse<CartDetailDTO>>(this.baseUrl, data).pipe(
       map(response => response.data)
     );
   }
 
+  // Trace point: updateItem()
   updateItem(itemId: number | string, data: UpdateCartItemRequestDTO): Observable<CartDetailDTO> {
     return this.http.put<ApiResponse<CartDetailDTO>>(`${this.baseUrl}/${itemId}`, data).pipe(
       map(response => response.data)
     );
   }
 
+  // Trace point: removeItem()
   removeItem(itemId: number | string, data: RemoveCartItemRequestDTO): Observable<CartDetailDTO> {
     return this.http.delete<ApiResponse<CartDetailDTO>>(`${this.baseUrl}/${itemId}`, {
       body: data
@@ -56,6 +61,7 @@ export class CartApiService {
     );
   }
 
+  // Trace point: clearCart()
   clearCart(): Observable<boolean> {
     return this.http.delete<ApiResponse<boolean>>(`${this.baseUrl}/clear`).pipe(
       map(response => response.data)

@@ -24,6 +24,7 @@ export class LandingFeaturedComponent {
     this.featuredProducts$ = this.productManager.getFeatured();
   }
 
+  // Trace point: openShop()
   openShop(): void {
     this.router.navigate(['/login']);
   }

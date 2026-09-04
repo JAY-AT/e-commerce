@@ -275,6 +275,7 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     private cartManager: CartManager,
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.orderId = this.route.snapshot.paramMap.get('orderId');
 
@@ -294,11 +295,13 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     this.watchOrderPaymentStatus();
   }
 
+  // Trace point: ngOnDestroy()
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  // Trace point: loadOrder()
   private loadOrder(): void {
     if (!this.orderId) return;
 
@@ -316,6 +319,7 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: watchOrderPaymentStatus()
   private watchOrderPaymentStatus(): void {
     if (!this.orderId) return;
 
@@ -332,6 +336,7 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: generateQrCode()
   generateQrCode(): void {
     if (!this.orderId) return;
 
@@ -362,6 +367,7 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: confirmPayment()
   confirmPayment(): void {
     if (!this.orderId || !this.qrCode || this.paymentConfirmed) return;
 
@@ -385,11 +391,13 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: backToCart()
   backToCart(): void {
     this.cartManager.clearCart();
     this.router.navigate(['/user-dashboard']);
   }
 
+  // Trace point: checkPaymentStatusOnce()
   private checkPaymentStatusOnce(): void {
     if (!this.orderId) return;
 
@@ -407,6 +415,7 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Trace point: applyPaidState()
   private applyPaidState(isPaid: boolean): void {
     if (!isPaid) return;
 
@@ -415,15 +424,18 @@ export class PayOrderComponent implements OnInit, OnDestroy {
     this.qrError = '';
   }
 
+  // Trace point: readOrderAmount()
   private readOrderAmount(order: any): number {
     return this.normalizeAmount(order?.total_amount ?? order?.total ?? order?.amount, 0);
   }
 
+  // Trace point: buildFallbackQrCodeUrl()
   private buildFallbackQrCodeUrl(): string {
     const paymentUrl = `${window.location.origin}/pay/${this.orderId}`;
     return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(paymentUrl)}`;
   }
 
+  // Trace point: normalizeAmount()
   private normalizeAmount(value: unknown, fallback: number): number {
     const amount = Number(value);
     return Number.isFinite(amount) && amount > 0 ? amount : fallback;

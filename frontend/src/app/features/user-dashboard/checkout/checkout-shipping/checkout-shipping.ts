@@ -15,6 +15,7 @@ export class CheckoutShippingComponent {
 
   @Output() toggled = new EventEmitter<void>();
 
+  // Trace point: toggle()
   toggle(): void {
     this.toggled.emit();
   }

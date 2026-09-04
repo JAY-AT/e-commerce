@@ -36,11 +36,13 @@ export class Products implements OnInit {
     private categoryManager: CategoryManager
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit() {
     this.loadCategories();
     this.loadProducts();
   }
 
+  // Trace point: loadCategories()
   loadCategories() {
     this.categoryManager.getCategories().subscribe({
       next: (res) => this.categories = res,
@@ -48,6 +50,7 @@ export class Products implements OnInit {
     });
   }
 
+  // Trace point: loadProducts()
   loadProducts() {
     this.isLoading = true;
     this.productManager.load()
@@ -63,6 +66,7 @@ export class Products implements OnInit {
     });
   }
 
+  // Trace point: onSearch()
   onSearch() {
     const query = this.searchQuery.trim();
 
@@ -74,6 +78,7 @@ export class Products implements OnInit {
     this.filteredProducts$ = this.availableOnly(this.productManager.searchProducts(query));
   }
 
+  // Trace point: onCategoryChange()
   onCategoryChange(category: string) {
     this.selectedCategory = category;
 
@@ -85,12 +90,14 @@ export class Products implements OnInit {
     this.filteredProducts$ = this.availableOnly(this.productManager.filterByCategory(category));
   }
 
+  // Trace point: getCategoryLabel()
   getCategoryLabel(slug: string): string {
     if (slug === 'all') return 'All categories';
 
     return this.categories.find(c => c.slug === slug)?.name ?? slug;
   }
 
+  // Trace point: availableOnly()
   private availableOnly(products$: Observable<ProductListItem[]>): Observable<ProductListItem[]> {
     return products$.pipe(
       map(products => products.filter(product => Number(product.stock) > 0))

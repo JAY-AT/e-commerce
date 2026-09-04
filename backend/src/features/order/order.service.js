@@ -88,6 +88,7 @@ export default class OrderService {
         }
     }
 
+    // Trace point: createOrder()
     async createOrder(userId, data) {
         const { shipping_addr } = data;
 
@@ -133,6 +134,7 @@ export default class OrderService {
         return order;
     }
 
+    // Trace point: generatePublicOrderQrCode()
     async generatePublicOrderQrCode(orderId) {
         const paymentUrl = `http://localhost:4200/pay/${orderId}`;
         const qrCodeImage = await QRCode.toDataURL(paymentUrl);
@@ -145,6 +147,7 @@ export default class OrderService {
         };
     }
 
+    // Trace point: generateOrderQrCode()
     async generateOrderQrCode(userId, orderId) {
         const rows = await OrderRepository.findFullById(orderId);
 
@@ -164,6 +167,7 @@ export default class OrderService {
         };
     }
 
+    // Trace point: confirmOrderPayment()
     async confirmOrderPayment(userId, orderId) {
         const rows = await OrderRepository.findFullById(orderId);
 

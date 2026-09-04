@@ -6,6 +6,7 @@ import {
 
 const orderStatuses = ["pending", "accepted", "paid", "shipped", "completed", "cancelled", "refund"];
 
+// Trace point: validateOrderId()
 export const validateOrderId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
   return {
@@ -14,6 +15,7 @@ export const validateOrderId = (params) => {
   };
 };
 
+// Trace point: validateCreateOrder()
 export const validateCreateOrder = (body) => {
   const errors = [];
   const shippingAddr = requiredString("shipping_addr", body.shipping_addr, {
@@ -31,6 +33,7 @@ export const validateCreateOrder = (body) => {
   };
 };
 
+// Trace point: validateOrderStatus()
 export const validateOrderStatus = (body) => {
   const { value, errors } = requiredOneOf("status", body.status, orderStatuses);
   return {

@@ -30,6 +30,7 @@ export class Signup implements OnInit {
     private supportManager: SupportManager
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
     if (user) {
@@ -37,6 +38,7 @@ export class Signup implements OnInit {
     }
   }
 
+  // Trace point: onSubmit()
   onSubmit(): void {
     if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
       this.toastManager.error('Please fill in all fields');
@@ -86,6 +88,7 @@ export class Signup implements OnInit {
     });
   }
 
+  // Trace point: routeByUserType()
   private routeByUserType(user: User): void {
     if (user.type === 'admin') {
       this.router.navigate(['/admin-dashboard']);

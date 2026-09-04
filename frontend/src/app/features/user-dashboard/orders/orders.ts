@@ -63,6 +63,7 @@ export class Orders implements OnInit {
     private toastManager: ToastManager
   ) {}
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     this.isLoading = true;
     this.loadOrders();
@@ -78,21 +79,25 @@ export class Orders implements OnInit {
     );
   }
 
+  // Trace point: loadOrders()
   loadOrders(): void {
     this.orderManager.userLoad(true);
     this.orders$ = this.orderManager.orderFull$;
   }
 
+  // Trace point: setStatusFilter()
   setStatusFilter(value: string): void {
     this.statusFilter = value;
     this.statusFilterSubject.next(value);
   }
 
+  // Trace point: setSortMode()
   setSortMode(value: 'newest' | 'oldest' | 'alpha-asc' | 'alpha-desc'): void {
     this.sortMode = value;
     this.sortModeSubject.next(value);
   }
 
+  // Trace point: trackByOrderId()
   trackByOrderId(_: number, order: Order): string {
     return order.id;
   }
@@ -131,6 +136,7 @@ export class Orders implements OnInit {
     });
   }
 
+  // Trace point: markReceived()
   markReceived(orderId: string): void {
     this.errorMessage = '';
 
@@ -142,10 +148,12 @@ export class Orders implements OnInit {
     });
   }
 
+  // Trace point: backToShop()
   backToShop(): void {
     this.router.navigate(['/user-dashboard']);
   }
 
+  // Trace point: logout()
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
@@ -177,6 +185,7 @@ export class Orders implements OnInit {
     return sorted;
   }
 
+  // Trace point: compareDates()
   private compareDates(left: string, right: string): number {
     return new Date(left).getTime() - new Date(right).getTime();
   }

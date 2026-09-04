@@ -4,6 +4,7 @@ import { withTransaction } from "../../common/utilities/handler.js";
 import AppError from "../../common/utilities/error.js";
 import { hashPassword } from "../../common/utilities/auth.js";
 
+// Trace point: splitProfilePayload()
 function splitProfilePayload(data) {
   const userData = {};
   const addressData = {};
@@ -26,10 +27,12 @@ function splitProfilePayload(data) {
   return { userData, addressData };
 }
 
+// Trace point: getAllUsers()
 export const getAllUsers = async () => {
   return await UserModel.findAllWithProfile();
 };
 
+// Trace point: getUser()
 export const getUser = async (id) => {
   const user = await UserModel.findByIdWithProfile(id);
 
@@ -38,6 +41,7 @@ export const getUser = async (id) => {
   return user;
 };
 
+// Trace point: updateUser()
 export const updateUser = async (id, data) => {
   const { userData, addressData } = splitProfilePayload(data);
 
@@ -74,6 +78,7 @@ export const updateUser = async (id, data) => {
   });
 };
 
+// Trace point: deleteUser()
 export const deleteUser = async (id) => {
   const result = await UserModel.delete(id);
   return result;

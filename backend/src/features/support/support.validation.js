@@ -3,6 +3,7 @@ import {
   requiredString,
 } from "../../common/validation/fields.js";
 
+// Trace point: validateSupportThreadId()
 export const validateSupportThreadId = (params) => {
   const { value, errors } = requiredPositiveInteger("id", params.id);
 
@@ -12,6 +13,7 @@ export const validateSupportThreadId = (params) => {
   };
 };
 
+// Trace point: validateSupportVisitorKey()
 export const validateSupportVisitorKey = (params) => {
   const { value, errors } = requiredString("visitorKey", params.visitorKey, {
     min: 8,
@@ -24,6 +26,7 @@ export const validateSupportVisitorKey = (params) => {
   };
 };
 
+// Trace point: validateSupportMessage()
 export const validateSupportMessage = (body) => {
   const { value: message, errors } = requiredString("message", body.message, {
     min: 1,

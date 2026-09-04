@@ -32,6 +32,7 @@ export default class OrderReviewRepository extends BaseModel {
         return rows[0] || null;
     }
 
+    // Trace point: findByOrderIdSafe()
     static async findByOrderIdSafe(orderId) {
         const data = await this.findByOrderId(orderId);
         return this.applySafe(data);
@@ -49,6 +50,7 @@ export default class OrderReviewRepository extends BaseModel {
         return rows;
     }
 
+    // Trace point: findByUserIdSafe()
     static async findByUserIdSafe(userId) {
         const data = await this.findByUserId(userId);
         return this.applySafe(data);
@@ -88,6 +90,7 @@ export default class OrderReviewRepository extends BaseModel {
             : this.safePick(data);
     }
 
+    // Trace point: safePick()
     static safePick(row) {
         if (!row) return null;
 
@@ -117,6 +120,7 @@ export default class OrderReviewRepository extends BaseModel {
         return rows;
 }
 
+    // Trace point: findTopHighRatingSafe()
     static async findTopHighRatingSafe(limit = 10) {
         const data = await this.findTopHighRating(limit);
         return this.applySafe(data);

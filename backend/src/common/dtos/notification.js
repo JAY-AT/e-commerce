@@ -1,3 +1,4 @@
+// Trace point: publicUserDTO()
 export const publicUserDTO = (user) => ({
   id: user.id,
   email: user.email,

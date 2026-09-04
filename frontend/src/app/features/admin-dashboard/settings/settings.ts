@@ -35,6 +35,7 @@ export class AdminSettingsComponent implements OnInit {
     });
   }
 
+  // Trace point: ngOnInit()
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
     if (!user) {
@@ -49,6 +50,7 @@ export class AdminSettingsComponent implements OnInit {
     });
   }
 
+  // Trace point: saveSettings()
   saveSettings(): void {
     if (this.settingsForm.invalid) {
       this.settingsForm.markAllAsTouched();
@@ -64,6 +66,7 @@ export class AdminSettingsComponent implements OnInit {
     this.message = 'Admin details updated';
   }
 
+  // Trace point: changePassword()
   changePassword(): void {
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
