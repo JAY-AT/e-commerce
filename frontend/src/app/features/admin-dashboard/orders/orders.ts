@@ -46,7 +46,7 @@ export class AdminOrdersComponent implements OnInit {
 
         let result = [...orders];
 
-        // 🔎 SEARCH
+        //  SEARCH
         if (search.trim()) {
           result = result.filter(o =>
             o.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -54,12 +54,12 @@ export class AdminOrdersComponent implements OnInit {
           );
         }
 
-        // 🎯 FILTER STATUS
+        //  FILTER STATUS
         if (filter !== 'all') {
           result = result.filter(o => o.status === filter);
         }
 
-        // ↕ SORT
+        //  SORT
         if (sort === 'newest') {
           result.sort((a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
